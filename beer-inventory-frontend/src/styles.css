@@ -170,4 +170,9 @@ input{
     margin: 0;
   }
 
+  .noBeers{
+    font-weight: bold;
+    color: red;
+  }
+
   

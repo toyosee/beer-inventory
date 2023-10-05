@@ -190,7 +190,7 @@ function Beers() {
         {/* Add the search input field */}
         <InputGroup className='mb-3'>
           <FormControl
-            placeholder='Search Beer Inventory...'
+            placeholder='Search Beer Inventory by name...'
             aria-label='Search Beer'
             aria-describedby='basic-addon2'
             value={searchQuery}
@@ -213,7 +213,7 @@ function Beers() {
         </InputGroup>
 
         {beers.length === 0 ? (
-          <p>Loading...</p>
+          <p className='noBeers'>SORRY : No Beers Found</p>
         ) : (
           <>
             <table className="brewery-table">
@@ -258,9 +258,11 @@ function Beers() {
                           beer.status === 'upcoming'
                             ? 'grey'
                             : beer.status === 'on-tap'
-                            ? 'green'
+                            ? 'tomato'
                             :beer.status === 'ordered'
                             ? 'orange'
+                            :beer.status === 'delivered'
+                            ? 'green'
                             : 'red',
                       }}
                     >

@@ -7,19 +7,19 @@ import { useParams } from 'react-router-dom';
 function UpdateBeer() {
   const [beer, setBeer] = useState({
     tap_number: '',
-    name: '',
-    type: '',
-    brewery_id: '',
-    supplier_id: '',
-    description: '',
-    flavor_details: '',
-    price_per_keg: '',
-    arrival_date: '',
-    keg_size: '',
-    serving_sizes: '',
-    price_per_serving: '',
-    category_id: null,
-    tap_id: null,
+    // name: '',
+    // type: '',
+    // brewery_id: '',
+    // supplier_id: '',
+    // description: '',
+    // flavor_details: '',
+    // price_per_keg: '',
+    // arrival_date: '',
+    // keg_size: '',
+    // serving_sizes: '',
+    // price_per_serving_size: '',
+    // category_id: null,
+    // tap_id: null,
   });
 
   const [updateConfirmation, setUpdateConfirmation] = useState(null);

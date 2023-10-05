@@ -9,6 +9,15 @@ const BeerController = {
     });
   }),
 
+  // Controller for ordered beers
+  getOrderedBeerById: asyncHandler(async (req, res) => {
+    const beerId = req.params.id;
+    BeerModel.getAllOrderedBeerById(beerId, (err, data) => {
+      if (err) return res.status(500).json({ error: 'Internal Server Error' });
+      return res.json(data);
+    });
+  }),
+
   createBeer: asyncHandler(async (req, res) => {
     const beerData = {
       name: req.body.name,
@@ -30,7 +39,7 @@ const BeerController = {
 
     BeerModel.createBeer(beerData, (err, data) => {
       if (err) return res.status(500).json({ error: 'Internal Server Error' });
-      console.log(err)
+      //console.log(err)
       return res.json({ message: 'Record created successfully' });
     });
   }),
@@ -39,7 +48,7 @@ const BeerController = {
     const beerId = req.params.id;
     BeerModel.getBeerById(beerId, (err, data) => {
       if (err) return res.status(500).json({ error: 'Internal Server Error' });
-      if (!data) return res.status(404).json({ error: 'Brewery not found' });
+      if (!data) return res.status(404).json({ error: 'Beer not found' });
       return res.status(200).json(data);
     });
   }),

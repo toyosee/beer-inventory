@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap';
 import './styles.css';
 import Beers from './pages/beers/Beers';
@@ -21,6 +21,7 @@ import Users from './pages/users/Users';
 import AddUsers from './pages/users/AddUsers';
 import UpdateUser from './pages/users/UpdateUser';
 import TapList from './pages/taplist/TapList'
+import Deliveries from './pages/taplist/Deliveries';
 import Login from './pages/users/Login';
 
 function App() {
@@ -40,7 +41,8 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link href="/beer">Beers</Nav.Link>
               <Nav.Link href="/breweries">Breweries</Nav.Link>
-              <Nav.Link href="/taplist">Lists/Deliveries</Nav.Link>
+              <Nav.Link href="/taplist">Lists</Nav.Link>
+              <Nav.Link href="/deliveries">Deliveries</Nav.Link>
               <NavDropdown title="Extra" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/categories">Categories</NavDropdown.Item>
                 <NavDropdown.Item href="/suppliers">Suppliers</NavDropdown.Item>
@@ -78,6 +80,7 @@ function App() {
             <Route path="/users/add" element={<AddUsers />} />
             <Route path="/users/update/:id" element={<UpdateUser />} />
             <Route path="/taplist" element={<TapList />} /> {/* Add the TapList route */}
+            <Route path="/deliveries" element={<Deliveries/>} />
           </Routes>
         </BrowserRouter>
       </div>

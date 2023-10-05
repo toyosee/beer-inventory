@@ -89,6 +89,7 @@ function AddUsers() {
                 {user.role || 'Select Role'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setUser({ ...user, role: 'Super Admin' })}>Super Admin</Dropdown.Item>
                 <Dropdown.Item onClick={() => setUser({ ...user, role: 'Admin' })}>Admin</Dropdown.Item>
                 <Dropdown.Item onClick={() => setUser({ ...user, role: 'Basic User' })}>Basic User</Dropdown.Item>
               </Dropdown.Menu>

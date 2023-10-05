@@ -10,6 +10,20 @@ const BeerModel = {
     });
   },
 
+  // Model to get all ordered beer
+  getAllOrderedBeerById: (beerId, callback) => {
+    const query = `
+      SELECT p.*, s.name AS supplier_name
+      FROM products p
+      JOIN suppliers s ON p.supplier_id = s.supplier_id
+      WHERE p.product_id = ? AND p.status = 'ordered'
+    `;
+    db.query(query, [beerId], (err, data) => {
+      callback(err, data[0]); // Assuming you expect one result or null
+    });
+  },
+  
+
   // Model to create a new beer in the database
   createBeer: (beerData, callback) => {
     const query = 'INSERT INTO products (`name`, `type`, `brewery_id`, `keg_size_id`, `description`, `flavor_details`, `price_per_keg`, `supplier_id`, `arrival_date`, `serving_sizes`, `price_per_serving_size`, `category_id`, `tap_number`, `tap_id`, `status`) VALUES (?)';
