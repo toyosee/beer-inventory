@@ -80,7 +80,9 @@ const router = createBrowserRouter([
     path: "/",
     element: <>
       {/* <ConditionalRoute /> */}
-      <Login />
+      {/* <Login /> */}
+      <Layout /> 
+      <Beers /> 
     </>,
   },
 
