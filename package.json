@@ -11,6 +11,7 @@
   "author": "Elijah Abolaji",
   "license": "ISC",
   "dependencies": {
+    "@react-pdf/renderer": "^3.1.14",
     "axios": "^1.5.0",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
@@ -18,10 +19,17 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "html2canvas": "^1.4.1",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^2.5.1",
     "mysql2": "^3.6.1",
     "nodemailer": "^6.9.5",
     "nodemon": "^3.0.1",
     "react-bootstrap": "^2.8.0"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   }
 }

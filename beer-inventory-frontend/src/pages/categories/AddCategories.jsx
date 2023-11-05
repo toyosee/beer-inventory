@@ -32,7 +32,8 @@ function AddCategories() {
   return (
     <>
     <div className='form contMargin'>
-        <h1>Add New Category</h1>
+      <br />
+        <h1 className='listUntapTitle'>Add New Category</h1>
         <div>
         <InputGroup size="lg">
         <InputGroup.Text id="inputGroup-sizing-lg">Category Name</InputGroup.Text>

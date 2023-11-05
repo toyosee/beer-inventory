@@ -115,7 +115,9 @@ const UserController = {
   }),
 
   currentUser: asyncHandler(async (req, res) => {
-    res.json(req.user);
+    res.json(req.user)
+    console.log(`Sucessfully logged in`);
+    
   }),
 };
 

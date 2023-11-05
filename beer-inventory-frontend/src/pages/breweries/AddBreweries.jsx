@@ -32,7 +32,8 @@ function AddBreweries() {
   return (
     <>
     <div className='form contMargin'>
-        <h1>Add New Brewery</h1>
+        <br />
+        <h1 className='listUntapTitle'>Add New Brewery</h1>
         <div>
         <InputGroup size="lg">
         <InputGroup.Text id="inputGroup-sizing-lg">Brewery Name</InputGroup.Text>

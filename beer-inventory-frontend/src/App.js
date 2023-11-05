@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { RouterProvider, createBrowserRouter, Outlet, Routes, Navigate, useNavigate } from 'react-router-dom';
+import Navigation from './components/Navbar';
+import { UserProvider, useUser } from './contexts/userContext';
+import { loginWithToken } from './pages/services/authService';
 import './styles.css';
+
 import Beers from './pages/beers/Beers';
 import AddBeer from './pages/beers/AddBeer';
-import Update from './pages/beers/UpdateBeer';
+import UpdateBeer from './pages/beers/UpdateBeer';
 import Breweries from './pages/breweries/Breweries';
 import AddBreweries from './pages/breweries/AddBreweries';
 import UpdateBrewery from './pages/breweries/UpdateBreweries';
@@ -21,71 +24,338 @@ import Users from './pages/users/Users';
 import AddUsers from './pages/users/AddUsers';
 import UpdateUser from './pages/users/UpdateUser';
 import TapList from './pages/taplist/TapList'
+import UntappedList from './pages/taplist/UntappedList';
 import Deliveries from './pages/taplist/Deliveries';
 import Login from './pages/users/Login';
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+//import Router from './components/Routers'
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  return (
+const Layout = () => {
+  return(
     <>
-      <Navbar className='fixed-top' expand="lg" bg="dark" data-bs-theme="dark">
-        <Container>
-          <Navbar.Brand href="/">University Of Beer</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/beer">Beers</Nav.Link>
-              <Nav.Link href="/breweries">Breweries</Nav.Link>
-              <Nav.Link href="/taplist">Lists</Nav.Link>
-              <Nav.Link href="/deliveries">Deliveries</Nav.Link>
-              <NavDropdown title="Extra" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/categories">Categories</NavDropdown.Item>
-                <NavDropdown.Item href="/suppliers">Suppliers</NavDropdown.Item>
-                <NavDropdown.Item href="/kegsizes">Keg Sizes</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="/users">Staff</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <Nav.Link href="/login" className="ms-auto" style={{ color: 'white' }}>
-              {isLoggedIn ? 'Logout' : 'Login'}
-            </Nav.Link>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route path="/beer" element={<Beers />} />
-            <Route path="/beer/add" element={<AddBeer />} />
-            <Route path="/update/:id" element={<Update />} />
-            <Route path="/breweries" element={<Breweries />} />
-            <Route path="/breweries/add" element={<AddBreweries />} />
-            <Route path="/breweries/update/:id" element={<UpdateBrewery />} />
-            <Route path="/suppliers" element={<Suppliers />} />
-            <Route path="/suppliers/add" element={<AddSuppliers />} />
-            <Route path="/suppliers/update/:id" element={<UpdateSupplier />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/categories/add" element={<AddCategories />} />
-            <Route path="/categories/update/:id" element={<UpdateCategory />} />
-            <Route path="/kegsizes" element={<KegSize />} />
-            <Route path="/kegsizes/add" element={<AddKegSize />} />
-            <Route path="/kegsizes/update/:id" element={<UpdateKegsize />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/users/add" element={<AddUsers />} />
-            <Route path="/users/update/:id" element={<UpdateUser />} />
-            <Route path="/taplist" element={<TapList />} /> {/* Add the TapList route */}
-            <Route path="/deliveries" element={<Deliveries/>} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+    <Navigation />
+    <Outlet />
     </>
+  )
+}
+
+// Protect the application and give access on login
+// function ProtectedRoute() {
+//   const { user } = useUser();
+
+//   if (user.isAuthenticated) {
+//     return (
+//       <>
+//         {/* <Navigation />
+//         <Outlet /> */}
+//         <Layout />
+//       </>
+//     );
+//   }
+
+//   return <Navigate to="/" />;
+// }
+
+// const ConditionalRoute = () => {
+//   const { user } = useUser();
+
+//   if (user.isAuthenticated) {
+//     // User is authenticated, redirect to the authenticated page
+//     return <Navigate to="/beers" />;
+//   } else {
+//     // User is not authenticated, redirect to the login page
+//     return (
+//       <>
+//        <Navigate to='/' />;
+//        </>
+//     )
+//   }
+// }
+
+
+const router = createBrowserRouter([
+
+  // Public Route for login page
+  {
+    path: "/",
+    element: <>
+      {/* <ConditionalRoute /> */}
+      <Login />
+    </>,
+  },
+
+  // For beer display, add and update
+  {
+    path: "/beers",
+    element: (
+      <>
+      {/* <ProtectedRoute /> */}
+        <Layout />
+        {/* <Outlet />  */}
+      </>
+    ),
+    children: [
+      {
+        index: true, // The root path for the "Beers" route
+        element: <Beers />, // Display the Beers component when accessing "/beers"
+      },
+      {
+        path: "add",
+        element: <AddBeer />,
+      },
+      {
+        path: "update/:id",
+        element: <UpdateBeer />,
+      },
+    ],
+  },
+  // Define other sections and routes similarly
+
+  // For breweries display, add and update
+  {
+    path: "/breweries",
+    element: (
+      <>
+      {/* <ProtectedRoute /> */}
+        <Layout />
+        {/* <Outlet /> */}
+      </>
+    ),
+    children: [
+      {
+        index: true, // The root path for the "Beers" route
+        element: <Breweries />, // Display the Beers component when accessing "/beers"
+      },
+      {
+        path: "add",
+        element: <AddBreweries />,
+      },
+      {
+        path: "update/:id",
+        element: <UpdateBrewery />,
+      },
+    ],
+  },
+
+  // For categories display, add and update
+  {
+    path: "/categories",
+    element: (
+      <>
+      {/* <ProtectedRoute /> */}
+        <Layout />
+        {/* <Outlet />  */}
+      </>
+    ),
+    children: [
+      {
+        index: true, // The root path for the "Beers" route
+        element: <Categories />, // Display the Beers component when accessing "/beers"
+      },
+      {
+        path: "add",
+        element: <AddCategories />,
+      },
+      {
+        path: "update/:id",
+        element: <UpdateCategory />,
+      },
+    ],
+  },
+
+  // For kegsizes display, add and update
+  {
+    path: "/kegsizes",
+    element: (
+      <>
+      {/* <ProtectedRoute /> */}
+        <Layout />
+        {/* <Outlet />  */}
+      </>
+    ),
+    children: [
+      {
+        index: true, // The root path for the "Beers" route
+        element: <KegSize />, // Display the Kegsize component when accessing "/kegsizes"
+      },
+      {
+        path: "add",
+        element: <AddKegSize />,
+      },
+      {
+        path: "update/:id",
+        element: <UpdateKegsize />,
+      },
+    ],
+  },
+
+  // For Suppliers display, add and update
+  {
+    path: "/suppliers",
+    element: (
+      <>
+      {/* <ProtectedRoute /> */}
+        <Layout />
+        {/* <Outlet />  */}
+      </>
+    ),
+    children: [
+      {
+        index: true, // The root path for the "Beers" route
+        element: <Suppliers />, // Display the Kegsize component when accessing "/kegsizes"
+      },
+      {
+        path: "add",
+        element: <AddSuppliers />,
+      },
+      {
+        path: "update/:id",
+        element: <UpdateSupplier />,
+      },
+    ],
+  },
+
+  // For Users display, add and update
+  {
+    path: "/users",
+    element: (
+      <>
+      {/* <ProtectedRoute /> */}
+        <Layout />
+        {/* <Outlet /> */}
+      </>
+    ),
+    children: [
+      {
+        index: true, 
+        element: <Users />,
+      },
+      {
+        path: "add",
+        element: <AddUsers />,
+      },
+      {
+        path: "update/:id",
+        element: <UpdateUser />,
+      },
+    ],
+  },
+
+   // For Taplist display
+   {
+    path: "/taplist",
+    element: (
+      <>
+      {/* <ProtectedRoute /> */}
+        <Layout />
+        {/* <Outlet /> */}
+      </>
+    ),
+    children: [
+      {
+        index: true,
+        element: <TapList />,
+      },
+    ],
+  },
+
+     // For Untaplist display
+     {
+      path: "/untaplist",
+      element: (
+        <>
+        {/* <ProtectedRoute /> */}
+          <Layout />
+          {/* <Outlet /> */}
+        </>
+      ),
+      children: [
+        {
+          index: true,
+          element: <UntappedList />,
+        },
+      ],
+    },
+
+   // For Deliverias display
+   {
+    path: "/deliveries",
+    element: (
+      <>
+      {/* <ProtectedRoute /> */}
+        <Layout />
+        {/* <Outlet /> */}
+      </>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Deliveries />,
+      },
+    ],
+  },
+
+  // {
+  //   path: 'conditional',
+  //   element: <ConditionalRoute />,
+  // },
+
+]);
+
+
+
+function App() {
+  // Define your router and routes...
+
+  // const navigate = useNavigate();
+  // const { dispatch } = useUser();
+
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem('token');
+  //   if (storedToken) {
+  //     console.log('Token found:', storedToken);
+  //     // Log in the user with the token
+  //     loginWithToken(storedToken)
+  //       .then((response) => {
+  //         console.log('Login with token successful:', response);
+  //         // Handle user login and additional actions here
+  //         // dispatch({ type: 'SET_USER_DATA', payload: response.data });
+  //         navigate('/beers'); // Redirect to the desired page
+  //       })
+  //       .catch((error) => {
+  //         // Handle any errors, e.g., token invalid
+  //         console.error('Login with token failed:', error.message);
+  //         // You may choose to remove the invalid token here
+  //         localStorage.removeItem('token');
+  //         navigate('/'); // Redirect to the login page
+  //       });
+  //   }
+  // }, [navigate, dispatch]);
+
+
+  // Wrap the component using useNavigate inside the RouterProvider
+  return (
+    <UserProvider>
+      <div className='App'>
+      <RouterProvider router={router}>
+    </RouterProvider>
+      </div>
+      </UserProvider>
   );
 }
+
+
+// function MainApp() {
+
+//   return (
+//     <div className="App">
+//     <UserProvider>
+//     <RouterProvider router={router}>
+//     </RouterProvider>
+//     </UserProvider>
+//     </div>
+//   );
+// }
+
 
 export default App;

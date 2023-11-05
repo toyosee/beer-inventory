@@ -11,7 +11,7 @@ const authenticate = asyncHandler(async (req, res, next) => {
       req.user = decodedToken;
       next();
     } else {
-      throw new Error('User Authentication failed again');
+      throw new Error('User Authentication failed again and again');
     }
   } catch (error) {
     return res.status(401).json({ message: error.message });

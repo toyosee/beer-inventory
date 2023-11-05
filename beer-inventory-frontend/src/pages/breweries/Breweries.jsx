@@ -87,7 +87,8 @@ function Breweries() {
   return (
     <div>
       <Container className='contMargin'>
-        <h1>Breweries</h1>
+        <br />
+        <h1 className='listUntapTitle'>Breweries</h1>
         {deleteConfirmation && <p style={{ color: 'green', fontWeight: 'bold' }}>{deleteConfirmation}</p>}
         <table className="brewery-table">
           <thead>

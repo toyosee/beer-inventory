@@ -48,7 +48,8 @@ function UpdateKegsize() {
   return (
     <>
       <div className='form contMargin'>
-        <h1>Update Keg Size</h1>
+        <br />
+        <h1 className='listUntapTitle'>Update Keg Size</h1>
         {updateConfirmation && (
           <p style={{ color: 'green', fontWeight: 'bold' }}>{updateConfirmation}</p>
         )}

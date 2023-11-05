@@ -174,10 +174,11 @@ function Beers() {
   return (
     <div>
       <Container className='contMargin'>
+        <br />
         <div className='orderNew'>
-        <h1 className='orderTitle'>Beer Stock</h1>
+        <h1 className='orderTitle listUntapTitle'>Beer Stock</h1>
             <Button variant='primary' size='lg'>
-              <Link to="/beer/add" className="update-link">
+              <Link to="/beers/add" className="update-link">
                 Order Beer
               </Link>
             </Button>
@@ -226,13 +227,13 @@ function Beers() {
                   <th className='tbl-left'>Supplier Name</th>
                   <th className='tbl-left'>Description</th>
                   <th className='tbl-left'>Flavor</th>
-                  <th className='tbl-left'>Price per Keg</th>
+                  <th className='tbl-left'>Price per Keg ($)</th>
                   <th className='tbl-left'>Serving Sizes</th>
-                  <th className='tbl-left'>Price per Service Size</th>
+                  <th className='tbl-left'>Price per Service Size ($)</th>
                   <th className='tbl-left'>Arrival Date</th>
                   <th className='tbl-left'>Status</th>
-                  <th>Add Tap Number</th>
-                  <th></th>
+                  <th>Add To Tap</th>
+                  {/* <th></th> */}
                 </tr>
               </thead>
               <tbody>
@@ -270,19 +271,19 @@ function Beers() {
                     </td>
                     <td>
                       <Button>
-                        <Link to={`/update/${beer.product_id}`} className="update-link">
+                        <Link to={`/beers/update/${beer.product_id}`} className="update-link">
                           <FontAwesomeIcon icon={faEdit} />
                         </Link>
                       </Button>
                     </td>
                     <td>
-                      <Button 
+                      {/* <Button 
                       onClick={() => handleDelete(beer.product_id)} 
                       variant="dark"
                       disabled={true}
                       >
                         <FontAwesomeIcon icon={faTrash} />
-                      </Button>
+                      </Button> */}
                     </td>
                   </tr>
                 ))}
@@ -314,7 +315,7 @@ function Beers() {
             </div>
             <br />
             <Button variant='primary' size='lg'>
-              <Link to="/beer/add" className="update-link">
+              <Link to="/beers/add" className="update-link">
                 Order Beer
               </Link>
             </Button>

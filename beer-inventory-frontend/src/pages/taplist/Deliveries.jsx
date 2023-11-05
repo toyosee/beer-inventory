@@ -64,7 +64,8 @@ function Deliveries() {
   return (
     <>
       <Container className='contMargin'>
-        <h2>Deliveries</h2>
+        <br />
+        <h2 className='listUntapTitle'>Deliveries</h2>
         <Table striped bordered hover>
           <thead>
             <tr>

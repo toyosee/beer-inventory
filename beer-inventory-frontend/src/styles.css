@@ -98,9 +98,11 @@ input{
 .brewery-table {
     width: 100%;
     border-collapse: collapse; /* Collapse the table borders */
+    height: auto;
+    
   }
   
-  .brewery-table th,
+
   .brewery-table td {
     /*border: 1px solid #ccc; /* Add a 1px solid gray border to table headers and cells 
     padding: 8px; /* Add padding for cell content 
@@ -110,7 +112,9 @@ input{
   }
   
   .brewery-table th {
-    background-color: #f2f2f2; /* Gray background color for header cells */
+    background-color: #f2f2f2;
+    border: none;
+    padding: 10px 20px; /* Gray background color for header cells */
   }
   .update-link {
     color: white; /* Text color of the link */
@@ -173,6 +177,23 @@ input{
   .noBeers{
     font-weight: bold;
     color: red;
+  }
+
+  .listTapTitle{
+    font-weight: bold;
+    color: green;
+  }
+
+  .listUntapTitle{
+    font-weight: bold;
+    color: grey;
+  }
+
+  .bg-logo{
+    background: none;
+    padding-bottom: 0;
+    width: 20;
+    height: 20;
   }
 
   

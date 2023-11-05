@@ -32,7 +32,8 @@ function AddKegSize() {
   return (
     <>
     <div className='form contMargin'>
-        <h1>Add New Keg Size</h1>
+        <br />
+        <h1 className='listUntapTitle'>Add New Keg Size</h1>
         <InputGroup size="lg">
         <InputGroup.Text id="inputGroup-sizing-lg">Keg Size</InputGroup.Text>
         <Form.Control

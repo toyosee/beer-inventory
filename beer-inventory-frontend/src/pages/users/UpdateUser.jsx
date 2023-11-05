@@ -16,7 +16,7 @@ function UpdateUser() {
   const navigate = useNavigate();
   const location = useLocation();
   const userId = location.pathname.split('/')[3];
- console.log(user.username)
+ //console.log(user.username)
 
   useEffect(() => {
     // Fetch existing data from the API
@@ -116,6 +116,7 @@ function UpdateUser() {
                 {user.role || 'Select Role'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleRoleSelect('Super Admin')}>Super Admin</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleRoleSelect('Admin')}>Admin</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleRoleSelect('Basic User')}>Basic User</Dropdown.Item>
               </Dropdown.Menu>

@@ -26,13 +26,13 @@ function UpdateBeer() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDisabled, setIsDisabled] = useState(true);
-  //const beerId = location.pathname.split('/')[3];
-  const { id } = useParams();
+  const beerId = location.pathname.split('/')[3];
+  //const { beerId } = useParams();
 
   useEffect(() => {
     const fetchBeer = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/beers/${id}`);
+        const response = await axios.get(`http://localhost:5001/api/beers/${beerId}`);
         setBeer(response.data);
       } catch (err) {
         console.log(err);
@@ -40,7 +40,7 @@ function UpdateBeer() {
     };
 
     fetchBeer();
-  }, [id]);
+  }, [beerId]);
 
   const handleChange = (e) => {
     setBeer((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -48,11 +48,11 @@ function UpdateBeer() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const beerUrl = `http://localhost:5001/api/beers/${id}`;
+    const beerUrl = `http://localhost:5001/api/beers/${beerId}`;
     try {
       await axios.put(beerUrl, beer);
       setUpdateConfirmation('Record updated successfully.');
-      navigate('/beer');
+      navigate('/beers');
     } catch (err) {
       console.log(err);
     }
@@ -61,7 +61,8 @@ function UpdateBeer() {
   return (
     <>
       <div className='form contMargin'>
-        <h1>Add Tap Number</h1>
+        <br />
+        <h1 className='listUntapTitle'>Add Tap Number</h1>
         {updateConfirmation && (
           <p style={{ color: 'green', fontWeight: 'bold' }}>{updateConfirmation}</p>
         )}
@@ -70,14 +71,16 @@ function UpdateBeer() {
         <div>
           <InputGroup size='lg'>
             <InputGroup.Text id='inputGroup-sizing-lg'>Tap Number</InputGroup.Text>
-            <Form.Control
-              onChange={handleChange}
-              type='number'
-              name='tap_number'
-              value={beer.tap_number}
-              aria-label='Large'
-              aria-describedby='inputGroup-sizing-sm'
-            />
+            {beer.tap_number !== undefined && (
+              <Form.Control
+                onChange={handleChange}
+                type='number'
+                name='tap_number'
+                value={beer.tap_number}
+                aria-label='Large'
+                aria-describedby='inputGroup-sizing-sm'
+              />
+            )}
           </InputGroup>
         </div>
 
@@ -101,7 +104,7 @@ function UpdateBeer() {
           <Button className='btn-extra' variant='primary' size='lg' onClick={handleClick}>
             Add
           </Button>
-          <Button variant='primary' size='lg' href='/beer' className='update-link btn-extra'>
+          <Button variant='primary' size='lg' href='/beers' className='update-link btn-extra'>
             Back
           </Button>
         </div>

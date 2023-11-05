@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Container, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function TapList() {
+function UntappedList() {
   const [tapList, setTapList] = useState([]);
   const [untappedList, setUntappedList] = useState([]);
   const tapListUrl = 'http://localhost:5001/api/tap/';
@@ -12,13 +12,13 @@ function TapList() {
 
   useEffect(() => {
     // Fetch data from the tapList URL
-    axios.get(tapListUrl).then((response) => {
-      if (response.data && response.data.tapList) {
-        setTapList(response.data.tapList);
-      } else {
-        console.error('tapList data is missing in the response');
-      }
-    });
+    // axios.get(tapListUrl).then((response) => {
+    //   if (response.data && response.data.tapList) {
+    //     setTapList(response.data.tapList);
+    //   } else {
+    //     console.error('tapList data is missing in the response');
+    //   }
+    // });
 
     // Fetch data from the untappedList URL
     axios.get(untappedListUrl).then((response) => {
@@ -62,8 +62,7 @@ function TapList() {
   return (
     <>
       <Container className='contMargin'>
-        <br />
-        <h2 className='listUntapTitle'>Tapped List</h2>
+        {/* <h2 className='listTapTitle'>Tapped List</h2>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -105,9 +104,9 @@ function TapList() {
               </tr>
             ))}
           </tbody>
-        </Table>
+        </Table> */}
         <br />
-        {/* <h2 className='listUntapTitle'>Untapped List</h2>
+        <h2 className='listUntapTitle'>Untapped List</h2>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -148,10 +147,10 @@ function TapList() {
               </tr>
             ))}
           </tbody>
-        </Table> */}
+        </Table>
       </Container>
     </>
   );
 }
 
-export default TapList;
+export default UntappedList;

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import {Button, InputGroup, Form} from 'react-bootstrap'
 
 function AddSuppliers() {
+    const [required, setRequired] = [true]
     const [supplier, setSupplier] = useState({
         name: ""
     })
@@ -32,7 +33,8 @@ function AddSuppliers() {
   return (
     <>
     <div className='form contMargin'>
-        <h1>Add New Supplier</h1>
+        <br />
+        <h1 className='listUntapTitle'>Add New Supplier</h1>
         <InputGroup size="lg">
         <InputGroup.Text id="inputGroup-sizing-lg">Supplier Name</InputGroup.Text>
         <Form.Control
@@ -40,6 +42,8 @@ function AddSuppliers() {
           name='name'
           aria-label="Large"
           aria-describedby="inputGroup-sizing-sm"
+          setRequired
+          
         />
         </InputGroup>
         <div className="btn-div">

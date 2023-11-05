@@ -48,7 +48,8 @@ function UpdateSupplier() {
   return (
     <>
       <div className='form contMargin'>
-        <h1>Update Supplier</h1>
+        <br />
+        <h1 className='listUntapTitle'>Update Supplier</h1>
         {updateConfirmation && (
           <p style={{ color: 'green', fontWeight: 'bold' }}>{updateConfirmation}</p>
         )}
@@ -60,6 +61,7 @@ function UpdateSupplier() {
             value={supplier.name}
             aria-label='Large'
             aria-describedby='inputGroup-sizing-sm'
+        
           />
         </InputGroup>
           <div className="btn-div">

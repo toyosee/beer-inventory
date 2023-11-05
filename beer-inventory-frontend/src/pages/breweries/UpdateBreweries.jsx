@@ -48,7 +48,8 @@ function UpdateBrewery() {
   return (
     <>
       <div className='form contMargin'>
-        <h1>Update Brewery</h1>
+        <br />
+        <h1 className='listUntapTitle'>Update Brewery</h1>
         {updateConfirmation && (
           <p style={{ color: 'green', fontWeight: 'bold' }}>{updateConfirmation}</p>
         )}

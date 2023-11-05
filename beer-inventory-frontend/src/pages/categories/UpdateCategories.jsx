@@ -48,7 +48,8 @@ function UpdateCategory() {
   return (
     <>
       <div className='form contMargin'>
-        <h1>Update Category</h1>
+        <br />
+        <h1 className='listUntapTitle'>Update Category</h1>
         {updateConfirmation && (
           <p style={{ color: 'green', fontWeight: 'bold' }}>{updateConfirmation}</p>
         )}
