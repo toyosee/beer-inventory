@@ -8,13 +8,24 @@ const cors = require('cors');
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+// make port mutable for command line args
+let port = process.env.PORT || 5000;
 
 // Adding middleware
 // adding an express.json() middleware parser to receive JSON objects
 app.use(express.json());
 // Using cors to allow API requests from the front end
-app.use(cors());
+const corsOptions = {
+	origin: '*',
+	
+}
+
+app.use(
+    cors({
+        	origin: '*',
+                methods: "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+        })
+)
 
 // Import routers for different resources
 const beerRoutes = require('./routes/beerRoutes');
@@ -41,13 +52,25 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/kegsizes", kegsizeRoutes);
 app.use("/api/users", usersRoutes);
 
-app.use(authenticate)
+// app.use(authenticate)
 app.use(errorHandler);
 // app.use("/api/beers", beerRoutes);
+
+// [experimental-code] port arg from command line
+const args = process.argv.slice(2);
+
+// Process command-line arguments
+args.forEach((arg, index) => {
+  if (arg === '--port' && args[index + 1]) {
+    // Check for --port argument and set the port
+    port = parseInt(args[index + 1]);
+  }
+});
 
 app.listen(port, () => {
     console.log(`Server successfully running on ${port}`);
 });
+
 
 // const express = require('express')
 // const dotenv = require('dotenv').config()

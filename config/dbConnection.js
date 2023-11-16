@@ -3,10 +3,11 @@ const express = require('express')
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-  host: '172.17.0.2',
-  user: 'root', // Your MySQL username
+  host: 'localhost',
+  user: 'unitvjdm_root', // Your MySQL username
   password: 'BeerPassword', // Your MySQL password
-  database: 'beer', // Your database name
+  database: 'unitvjdm_beer', // Your database name
+  port: '3306'
 });
 
 db.connect((err) => {
