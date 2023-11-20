@@ -66,7 +66,7 @@ function AddBeer() {
       const row = [];
       const cols = rows[i].querySelectorAll('td, th');
   
-      for (let j = 0; j < cols.length; j++) {
+      for (let j = 0; j < cols.length - 1; j++) {
         row.push(cols[j].innerText);
       }
   
@@ -81,9 +81,7 @@ function AddBeer() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
-  
-  
+  }  
   
 
   useEffect(() => {
@@ -460,7 +458,7 @@ function AddBeer() {
          {/* Display the table of ordered items */}
          {orderedItems.length > 0 && (
           <div>
-            <h1>Ordered Items</h1>
+            <h1 className='listUntapTitle'>Order List</h1>
             <br />
             <table className='brewery-table' ref={orderedItemsTableRef}>
               <thead>
