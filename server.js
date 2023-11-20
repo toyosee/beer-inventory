@@ -14,17 +14,12 @@ let port = process.env.PORT || 5000;
 // Adding middleware
 // adding an express.json() middleware parser to receive JSON objects
 app.use(express.json());
-// Using cors to allow API requests from the front end
-const corsOptions = {
-	origin: '*',
-	
-}
 
 app.use(
     cors({
-        	origin: '*',
-                methods: "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
-        })
+    	origin: '*',
+        methods: "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    })
 )
 
 // Import routers for different resources
@@ -77,7 +72,7 @@ app.listen(port, () => {
 // const errorHandler = require('./middleware/errorHandler')
 // const authenticate = require('./middleware/authMiddleware')
 
-// //const loginController = require('./controllers/userController')
+// const loginController = require('./controllers/userController')
 // const cors = require('cors')
 
 // const app = express()

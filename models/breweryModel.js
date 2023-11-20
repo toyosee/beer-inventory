@@ -20,7 +20,7 @@ const BreweriesModel = {
   getBreweryById: (breweryId, callback) => {
     const query = 'SELECT * FROM Breweries WHERE brewery_id = ?';
     db.query(query, [breweryId], (err, data) => {
-      callback(err, data[0]);
+      callback(err, data);
     });
   },
 
