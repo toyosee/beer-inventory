@@ -8,6 +8,22 @@ const cors = require('cors');
 
 const app = express();
 
+const fs = require('fs');
+
+
+app.get('/file', (req, res) => {
+    fs.readFile('./dummy.txt', 'utf-8', (err, data) => {
+	if (err){
+		
+            res.status(400).json(err)
+	}
+
+	res.status(200).json({ data })
+    })
+})
+
+
+
 // make port mutable for command line args
 let port = process.env.PORT || 5000;
 
