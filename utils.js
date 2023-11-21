@@ -1,7 +1,10 @@
 const nodemailer = require("nodemailer");
 const fs = require("fs");
+// const PDFDocument = require('pdfkit');
+const pdf = require('pdfjs');
 
-export const transporter = nodemailer.createTransport({
+
+const mailTransporter = nodemailer.createTransport({
   host: process.env.SMTP_MAIL_HOST || "smtp.forwardemail.net",
   port: process.env.SMTP_MAIL_HOST || 465,
   secure: true,
@@ -13,7 +16,7 @@ export const transporter = nodemailer.createTransport({
 });
 
 // async..await is not allowed in global scope, must use a wrapper
-export async function sendMail({ senderName, senderMail, recipients, subject, body, html, attachments }) {
+async function sendMail({ senderName, senderMail, recipients, subject, body, html, attachments }) {
   // send mail with defined transport object
   const mail = await transporter.sendMail({
     from: `"${senderName}" <${senderMail}>`,
@@ -29,7 +32,7 @@ export async function sendMail({ senderName, senderMail, recipients, subject, bo
 }
 
 
-export async function readFile(fname){
+async function readFile(fname){
   fs.readFile(fname, 'utf-8', (err, data) => {
     if (err){
       throw err
@@ -39,9 +42,60 @@ export async function readFile(fname){
   })
 }
 
+function makePDF(data){
+  let now;
+  now = Date.now().toString().split(' T')
+  now = now[0]
+  const fname = `${process.cwd()}/files/beer-order-${now}.pdf`;
+  const doc = new pdf.Document({
+    font:    require('pdfjs/font/Helvetica'),
+    padding: 20,
+    fontSize: 8
+  })
+  doc.pipe(fs.createWriteStream(fname))
+
+  // pdf Header
+  const header = doc.header().text("Beer Order List to Brewery")
+
+  // text -> pdf body
+  doc.text("Here are the latest order", {
+    alignment: 'center',
+    fontSize: 10,
+  })
+
+  const table = doc.table({
+    widths: [70, 70, 70, 70, 70, 70, 70],
+    borderWidth: 1,
+    width: 700,    
+    padding: 5,
+  })
+  
+  const th = table.header()
+
+  th.cell('Beer Name')
+  th.cell('Supplier Name')
+  th.cell('Brewery')
+  th.cell('Arrival Date')
+  th.cell('Keg Size')
+  th.cell('Price Per Keg')
+  th.cell('Number of Kegs ordered')
+
+  
+  for(let item of data.orderedItems){
+    const row = table.row()
+    row.cell(item.name)
+    row.cell(item.keg_size)
+    // other cols
+  }
+  
+  doc.end(); // stop editing
+  return fname
+}
+
 module.exports = {
   sendMail,
   mailTransporter,
   readFile,
+  makePDF,
 }
 
