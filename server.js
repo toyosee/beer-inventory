@@ -3,23 +3,21 @@ const dotenv = require('dotenv').config();
 const errorHandler = require('./middleware/errorHandler');
 const authenticate = require('./middleware/authMiddleware');
 const {loginUser} = require  ('./controllers/userController');
-
+const {sendMail, mailTransporter, readFile} = require  ('./utils'); // send email and file function
 const cors = require('cors');
+
 
 const app = express();
 
-const fs = require('fs');
 
 
 app.get('/file', (req, res) => {
-    fs.readFile('./dummy.txt', 'utf-8', (err, data) => {
-	if (err){
-		
-            res.status(400).json(err)
-	}
-
-	res.status(200).json({ data })
-    })
+    try{
+        const data = readFile('./files/dummy.txt')
+        res.status(200).json({data})
+    }catch(err){
+        res.status(500).json({err})
+    }
 })
 
 
