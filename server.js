@@ -3,18 +3,38 @@ const dotenv = require('dotenv').config();
 const errorHandler = require('./middleware/errorHandler');
 const authenticate = require('./middleware/authMiddleware');
 const {loginUser} = require  ('./controllers/userController');
-
+const {sendMail, mailTransporter, readFile} = require  ('./utils'); // send email and file function
 const cors = require('cors');
+
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+
+
+app.get('/file', (req, res) => {
+    try{
+        const data = readFile('./files/dummy.txt')
+        res.status(200).json({data})
+    }catch(err){
+        res.status(500).json({err})
+    }
+})
+
+
+
+// make port mutable for command line args
+let port = process.env.PORT || 5000;
 
 // Adding middleware
 // adding an express.json() middleware parser to receive JSON objects
 app.use(express.json());
-// Using cors to allow API requests from the front end
-app.use(cors());
+
+app.use(
+    cors({
+    	origin: '*',
+        methods: "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    })
+)
 
 // Import routers for different resources
 const beerRoutes = require('./routes/beerRoutes');
@@ -41,20 +61,32 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/kegsizes", kegsizeRoutes);
 app.use("/api/users", usersRoutes);
 
-app.use(authenticate)
+// app.use(authenticate)
 app.use(errorHandler);
 // app.use("/api/beers", beerRoutes);
+
+// [experimental-code] port arg from command line
+const args = process.argv.slice(2);
+
+// Process command-line arguments
+args.forEach((arg, index) => {
+  if (arg === '--port' && args[index + 1]) {
+    // Check for --port argument and set the port
+    port = parseInt(args[index + 1]);
+  }
+});
 
 app.listen(port, () => {
     console.log(`Server successfully running on ${port}`);
 });
+
 
 // const express = require('express')
 // const dotenv = require('dotenv').config()
 // const errorHandler = require('./middleware/errorHandler')
 // const authenticate = require('./middleware/authMiddleware')
 
-// //const loginController = require('./controllers/userController')
+// const loginController = require('./controllers/userController')
 // const cors = require('cors')
 
 // const app = express()
