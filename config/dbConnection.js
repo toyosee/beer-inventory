@@ -3,7 +3,7 @@ const express = require('express')
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: 'unitysecservices.com', // 172.17.0.2
   user: 'unitvjdm_root', // Your MySQL username
   password: 'BeerPassword', // Your MySQL password
   database: 'unitvjdm_beer', // Your database name
