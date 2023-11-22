@@ -1,0 +1,3 @@
+[submodule "beertap"]
+    path = beertap
+    url = https://github.com/ogofe/beertap.git
