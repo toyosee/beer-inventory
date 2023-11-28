@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const BeerModel = require('../models/beerModel');
-const {sendMail, logError, makePDF, htmlToText} = require('../utils');
+const {sendMail, makePDF, htmlToText} = require('../utils');
 
 const BeerController = {
   getBeers: asyncHandler(async (req, res) => {
@@ -41,14 +41,14 @@ const BeerController = {
         };
         
         BeerModel.createBeer(beerData, (err, data) => {
-          if (err) {logError(err)};
+          if (err) {console.log(err)};
         });
 
       }
 
     }catch(err){
       
-      logError(err)
+      // logError(err)
       
       return res.json({
         error: 'Server Error',

@@ -19,11 +19,11 @@ const mailTransporter = nodemailer.createTransport({
 
 // Create a logger with a file transport
 
-const logger = winston.createLogger({
-  transports: [
-    new winston.transports.File({ filename: `${process.cwd()}/server-logs.log` })
-  ]
-});
+// const logger = winston.createLogger({
+//   transports: [
+//     new winston.transports.File({ filename: `${process.cwd()}/server-logs.log` })
+//   ]
+// });
 
 
 // async..await is not allowed in global scope, must use a wrapper
@@ -56,18 +56,18 @@ async function sendMail({user, breweryName, supplierName, pdfFile}) {
 
 
 // Function to log messages in a structured format
-function logError(error, origin) {
-  const timestamp = new Date().toISOString();
-  const logMessage = `
-    ---------------- Error -------------------------
-    Timestamp: [${timestamp}]
-    Error: ${error.stack || error.message || error}
-    Origin: ${origin || "Origin not specified"}
-    ------------------------------------------------
-    \n\n
-  `;
-  logger.error(logMessage);
-}
+// function logError(error, origin) {
+//   const timestamp = new Date().toISOString();
+//   const logMessage = `
+//     ---------------- Error -------------------------
+//     Timestamp: [${timestamp}]
+//     Error: ${error.stack || error.message || error}
+//     Origin: ${origin || "Origin not specified"}
+//     ------------------------------------------------
+//     \n\n
+//   `;
+//   logger.error(logMessage);
+// }
 
 
 async function readFile(fname){
