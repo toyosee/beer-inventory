@@ -47,8 +47,9 @@ const BeerController = {
       }
     }catch(err){
       logError(err)
-      return res.status(500).json({
-        error: 'Server Error'
+      return res.json({
+        error: 'Server Error',
+        stack: JSON.stringify(err)
       })
     }
 
