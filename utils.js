@@ -1,8 +1,9 @@
 const nodemailer = require("nodemailer");
 const fs = require("fs");
-const {logger} = require('./server');
 const pdf = require('pdfjs');
 const cheerio = require('cheerio');
+const winston = require('winston');
+
 
 const mailTransporter = nodemailer.createTransport({
   host: process.env.SMTP_MAIL_HOST || "smtp.forwardemail.net",
@@ -14,6 +15,16 @@ const mailTransporter = nodemailer.createTransport({
     pass: process.env.SMTP_MAIL_PASSWORD,
   },
 });
+
+
+// Create a logger with a file transport
+
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.File({ filename: `${process.cwd()}/server-logs.log` })
+  ]
+});
+
 
 // async..await is not allowed in global scope, must use a wrapper
 async function sendMail({user, breweryName, supplierName, pdfFile}) {
@@ -134,6 +145,7 @@ function htmlToText(htmlMessage) {
   const textContent = $('body').text();
   return textContent;
 }
+
 
 module.exports = {
   sendMail,
