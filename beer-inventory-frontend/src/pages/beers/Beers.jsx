@@ -47,14 +47,49 @@ function Beers() {
     fetchAllBeers();
   }, [isDeleted]);
 
+  
+
+  // Helper function to format a date string as a short date (e.g., "MM/DD/YYYY")
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  // Define an async function to fetch the brewery name based on brewery_id
+  const fetchBreweryName = async (breweryId) => {
+    try {
+      const response = await axios.get(`${apiUrl}/breweries/${breweryId}`);
+      //console.log(response.data[0].name)
+      return response.data[0].name; // Assuming the brewery name is available in the response
+      
+    } catch (err) {
+      console.log(err);
+      return "Unknown Brewery"; // Handle errors gracefully
+    }
+  };
+
+  // Define an async function to fetch the supplier name based on supplier_id
+  const fetchSupplierName = async (supplierId) => {
+    try {
+      const response = await axios.get(`${apiUrl}/suppliers/${supplierId}`);
+      //console.log(response.data)
+      return response.data.name; // Assuming the supplier name is available in the response
+    } catch (err) {
+      console.log(err);
+      return "Unknown Supplier"; // Handle errors gracefully
+    }
+  };
+
   // Fetch all brewery names and store them in the state
   const fetchBreweryNames = async () => {
     try{
       const names = {};
       for (const beer of beers.slice(start, end)) {
         const breweryName = await fetchBreweryName(beer.brewery_id);
-        names[beer.product_id] = breweryName;
+        names[beer.brewery_id] = breweryName;
+        //console.log(beer.brewery_id)
       }
+      
       setBreweryNames(names);
     }catch(error){
       notify({
@@ -71,6 +106,7 @@ function Beers() {
       for (const beer of beers.slice(start, end)) {
         const supplierName = await fetchSupplierName(beer.supplier_id);
         names[beer.supplier_id] = supplierName;
+        //console.log(names[beer.supplier_id])
       }
       setSupplierNames(names);
     }catch(error){
@@ -86,34 +122,6 @@ function Beers() {
     fetchBreweryNames();
     fetchSupplierNames();
   }, [beers, start, end]);
-
-  // Helper function to format a date string as a short date (e.g., "MM/DD/YYYY")
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
-  // Define an async function to fetch the brewery name based on brewery_id
-  const fetchBreweryName = async (breweryId) => {
-    try {
-      const response = await axios.get(`${apiUrl}/breweries/${breweryId}`);
-      return response.data.name; // Assuming the brewery name is available in the response
-    } catch (err) {
-      console.log(err);
-      return "Unknown Brewery"; // Handle errors gracefully
-    }
-  };
-
-  // Define an async function to fetch the supplier name based on supplier_id
-  const fetchSupplierName = async (supplierId) => {
-    try {
-      const response = await axios.get(`${apiUrl}/suppliers/${supplierId}`);
-      return response.data.name; // Assuming the supplier name is available in the response
-    } catch (err) {
-      console.log(err);
-      return "Unknown Supplier"; // Handle errors gracefully
-    }
-  };
 
   useEffect(() => {
     // Check if a delete confirmation message is stored in localStorage
@@ -275,7 +283,7 @@ function Beers() {
                     <td className='tbl-left'>{beer.tap_number}</td>
                     <td className='w-50 tbl-left'>{beer.name}</td>
                     <td className='tbl-left'>{beer.type}</td>
-                    <td className='tbl-left'>{breweryNames[beer.product_id]}</td>
+                    <td className='tbl-left'>{breweryNames[beer.brewery_id]}</td>
                     <td className='tbl-left'>{supplierNames[beer.supplier_id]}</td>
                     <td className='tbl-left'>{beer.description}</td>
                     <td className='tbl-left'>{beer.flavor_details}</td>
