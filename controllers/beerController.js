@@ -52,7 +52,8 @@ const BeerController = {
     }
 
     // send Email to staff
-    const pdfFile = makePDF(orderedItems)
+    // const pdfFile = makePDF(orderedItems)
+    const pdfFile = ''
 
     return res.json({ message: 'Record created successfully', 'fileUrl': pdfFile });
   }),

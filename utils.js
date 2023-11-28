@@ -9,19 +9,19 @@ const mailTransporter = nodemailer.createTransport({
   port: process.env.SMTP_MAIL_HOST || 465,
   secure: true,
   auth: {
-    // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+    // TODO: replace `user` and `pass` values from cpanel
     user: process.env.SMTP_MAIL_USER,
     pass: process.env.SMTP_MAIL_PASSWORD,
   },
 });
 
 // async..await is not allowed in global scope, must use a wrapper
-async function sendMail({user, breweryName, supplier, pdfFile}) {
+async function sendMail({user, breweryName, supplierName, pdfFile}) {
   
   const message = `
     ${user} has placed a new order for ${breweryName} from ${supplierName}. 
     Please print and replace your Ordered Beers List.
-    ${fileLink}
+    ${pdfFile}
   `
   // send Email to staff
   const email = {
@@ -37,7 +37,6 @@ async function sendMail({user, breweryName, supplier, pdfFile}) {
   }
   sendMail(mail)
 
-  
   try{
     // send mail with defined transport object
     const mail = await transporter.sendMail({
@@ -55,16 +54,12 @@ async function sendMail({user, breweryName, supplier, pdfFile}) {
   }catch(err){
     console.error()
   }
-
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 }
 
 
 // Function to log messages in a structured format
 function logError(error, origin) {
   const timestamp = new Date().toISOString();
-
-  // Build the log message
   const logMessage = `
     ---------------- Error -------------------------
     Timestamp: [${timestamp}]
@@ -73,19 +68,20 @@ function logError(error, origin) {
     ------------------------------------------------
     \n\n
   `;
-  // Log the message
   logger.error(logMessage);
 }
+
 
 async function readFile(fname){
   fs.readFile(fname, 'utf-8', (err, data) => {
     if (err){
       throw err
     }
-  
+
     return data 
   })
 }
+
 
 function makePDF(data){
   let now;
@@ -100,7 +96,7 @@ function makePDF(data){
   doc.pipe(fs.createWriteStream(fname))
 
   // pdf Header
-  const header = doc.header().text("Beer Order List to Brewery")
+  const header = doc.header().text(`Beer Order List to Brewery: ${breweryName}`)
 
   // text -> pdf body
   doc.text("Here are the latest order", {
@@ -108,6 +104,7 @@ function makePDF(data){
     fontSize: 10,
   })
 
+  // create the table 
   const table = doc.table({
     widths: [70, 70, 70, 70, 70, 70, 70],
     borderWidth: 1,
@@ -115,8 +112,8 @@ function makePDF(data){
     padding: 5,
   })
   
+  // The table header
   const th = table.header()
-
   th.cell('Beer Name')
   th.cell('Beer Type')
   th.cell('Supplier')
@@ -125,7 +122,7 @@ function makePDF(data){
   th.cell('Keg Size')
   th.cell('Price Per Keg')
 
-  
+  // INFO: write the rows of ordered items
   for(let item of data.orderedItems){
     const row = table.row();
     row.cell(item.name)
