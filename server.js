@@ -5,7 +5,6 @@ const authenticate = require('./middleware/authMiddleware');
 const {loginUser} = require  ('./controllers/userController');
 const {sendMail, mailTransporter, readFile, makePDF} = require  ('./utils'); // send email and file function
 const cors = require('cors');
-const winston = require('winston');
 
 
 
@@ -58,18 +57,8 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/kegsizes", kegsizeRoutes);
 app.use("/api/users", usersRoutes);
 
-// Create a logger with a file transport
-
-const logger = winston.createLogger({
-  transports: [
-    new winston.transports.File({ filename: `${process.cwd()}/server-logs.log` })
-  ]
-});
 
 app.listen(port, () => {
     console.log(`Server successfully running on ${port}`);
 });
 
-module.exports = {
-  logger,
-}
