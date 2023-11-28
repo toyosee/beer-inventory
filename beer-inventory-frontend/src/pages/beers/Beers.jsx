@@ -59,7 +59,6 @@ function Beers() {
   const fetchBreweryName = async (breweryId) => {
     try {
       const response = await axios.get(`${apiUrl}/breweries/${breweryId}`);
-      //console.log(response.data[0].name)
       return response.data[0].name; // Assuming the brewery name is available in the response
       
     } catch (err) {
@@ -72,7 +71,6 @@ function Beers() {
   const fetchSupplierName = async (supplierId) => {
     try {
       const response = await axios.get(`${apiUrl}/suppliers/${supplierId}`);
-      //console.log(response.data)
       return response.data.name; // Assuming the supplier name is available in the response
     } catch (err) {
       console.log(err);
@@ -87,7 +85,6 @@ function Beers() {
       for (const beer of beers.slice(start, end)) {
         const breweryName = await fetchBreweryName(beer.brewery_id);
         names[beer.brewery_id] = breweryName;
-        //console.log(beer.brewery_id)
       }
       
       setBreweryNames(names);
@@ -106,7 +103,6 @@ function Beers() {
       for (const beer of beers.slice(start, end)) {
         const supplierName = await fetchSupplierName(beer.supplier_id);
         names[beer.supplier_id] = supplierName;
-        //console.log(names[beer.supplier_id])
       }
       setSupplierNames(names);
     }catch(error){
@@ -360,8 +356,3 @@ function Beers() {
 }
 
 export default Beers;
-
-/*
-
-
-*/
