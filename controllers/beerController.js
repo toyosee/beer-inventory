@@ -22,7 +22,8 @@ const BeerController = {
   createBeer: asyncHandler(async (req, res) => {
     const {orderedItems} = req.body;
     try{
-      for (const item of orderedItems) {
+      
+      for (let item of orderedItems) {
         const beerData = {
           name: item.name,
           type: item.type,
@@ -36,21 +37,24 @@ const BeerController = {
           serving_sizes: item.serving_sizes,
           price_per_serving_size: item.price_per_serving_size,
           category_id: item.category_id,
-          tap_number: item.tap_number,
-          tap_id: item.tap_id,
           status: item.status
         };
         
         BeerModel.createBeer(beerData, (err, data) => {
-          if (err) throw err;
+          if (err) {logError(err)};
         });
+
       }
+
     }catch(err){
+      
       logError(err)
+      
       return res.json({
         error: 'Server Error',
         stack: JSON.stringify(err)
       })
+
     }
 
     // send Email to staff
