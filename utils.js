@@ -23,30 +23,17 @@ async function sendMail({user, breweryName, supplierName, pdfFile}) {
     Please print and replace your Ordered Beers List.
     ${pdfFile}
   `
-  // send Email to staff
-  const email = {
-    senderMail,
-    senderName: "",
-    recipients: ``,
-    subject: ,
-    body: htmlToText(message),
-    html: `
-      
-    `,
-    attachments: [pdfFile],
-  }
-  sendMail(mail)
 
   try{
     // send mail with defined transport object
     const mail = await transporter.sendMail({
       from: `"University Of Beer" <${senderMail}>`,
-      to: recipients, // list of receivers
+      to: '', // list of receivers
       subject: `New ${supplierName} Beer Order Placed for ${breweryName}`,
       text: message,
       attachments: [
         {
-          filename: `ordered-items-details.pdf`, content: 
+          filename: `ordered-items-details.pdf`, content: ""
         }
       ], // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
     });
