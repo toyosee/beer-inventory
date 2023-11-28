@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const BeerModel = require('../models/beerModel');
-const {sendMail, makePDF, htmlToText} = require('../utils');
+const {sendMail, logError, makePDF, htmlToText} = require('../utils');
 
 const BeerController = {
   getBeers: asyncHandler(async (req, res) => {
@@ -46,13 +46,15 @@ const BeerController = {
         });
       }
     }catch(err){
+      logError(err)
       return res.status(500).json({
         error: 'Server Error'
       })
     }
 
     // send Email to staff
-    const pdfFile = makePDF(orderedItems)
+    // const pdfFile = makePDF(orderedItems)
+    const pdfFile = ''
 
     return res.json({ message: 'Record created successfully', 'fileUrl': pdfFile });
   }),
