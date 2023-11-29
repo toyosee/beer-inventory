@@ -152,7 +152,7 @@ module.exports = {
   mailTransporter,
   readFile,
   makePDF,
-  logError,
+//  logError,
   htmlToText,
 }
 

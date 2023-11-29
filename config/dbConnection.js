@@ -3,10 +3,10 @@ const express = require('express')
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-  host: process.env.BEER_DB_HOST, // 172.17.0.2
-  user: process.env.BEER_DB_USER, // Your MySQL username
-  password: process.env.BEER_DB_PASSWORD, // Your MySQL password
-  database: process.env.BEER_DB_NAME, // Your database name
+  host: process.env.BEER_DB_HOST || 'localhost', // 172.17.0.2
+  user: process.env.BEER_DB_USER || 'unitvjdm_root', // Your MySQL username
+  password: process.env.BEER_DB_PASSWORD || 'BeerPassword', // Your MySQL password
+  database: process.env.BEER_DB_NAME || 'unitvjdm_beer', // Your database name
   port: '3306'
 });
 
