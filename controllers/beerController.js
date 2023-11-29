@@ -1,5 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const BeerModel = require('../models/beerModel');
+const BreweryModel = require('../models/breweryModel');
+const SupplierModel = require('../models/supplierModel');
+const KegSizeModel = require('../models/kegsizeModel');
 const {sendMail, makePDF, htmlToText} = require('../utils');
 
 const BeerController = {
@@ -46,22 +49,73 @@ const BeerController = {
 
       }
 
-    }catch(err){
-      
-      // logError(err)
-      
+      const breweries = []
+      const suppliers = []
+      const kegsizes = []
+
+      function mapBreweries(err, data){
+        if(err){
+        }else{
+          data.map((val, idx, arr) => {
+            breweries.push({
+              id: val.id,
+              name: val.name
+            })
+          })
+        }
+      }
+
+      function mapSuppliers(err, data){
+        if(err){
+        }else{
+          data.map((val, idx, arr) => {
+            suppliers.push({
+              id: val.id,
+              name: val.name
+            })
+          })
+        }
+      }
+
+      function mapKegSizes(err, data){
+        if(err){
+        }else{
+          data.map((val, idx, arr) => {
+            kegsizes.push({
+              id: val.id,
+              name: val.name
+            })
+          })
+        }
+      }
+
+      BreweryModel.getAllBreweries(mapBreweries)
+      SupplierModel.getAllBreweries(mapSuppliers)
+      KegSizeModel.getAllSizes(mapKegSizes)
+    
+      // send Email to staff
+      // const pdfFile = makePDF({
+      //   data: orderedItems,
+      //   breweries,
+      //   suppliers,
+      //   kegsizes,
+      // })
+      const pdfFile = ''
+  
+      return res.json({
+        message: 'Record created successfully',
+        'fileUrl': pdfFile,
+        kegsizes,
+        suppliers,
+        breweries,
+      });
+
+    }catch(err){      
       return res.json({
         error: 'Server Error',
         stack: JSON.stringify(err)
       })
-
     }
-
-    // send Email to staff
-    // const pdfFile = makePDF(orderedItems)
-    const pdfFile = ''
-
-    return res.json({ message: 'Record created successfully', 'fileUrl': pdfFile });
   }),
 
   getBeer: asyncHandler(async (req, res) => {
