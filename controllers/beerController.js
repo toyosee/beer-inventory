@@ -92,16 +92,26 @@ const BeerController = {
       BreweryModel.getAllBreweries(mapBreweries)
       SupplierModel.getAllBreweries(mapSuppliers)
       KegSizeModel.getAllSizes(mapKegSizes)
+      
+      const pdfFile = makePDF({
+        user,
+        breweries,
+        suppliers,
+        kegsizes,
+      })
+
+      // const pdfFile = ''
     
       // send Email to staff
-      // const pdfFile = makePDF({
-      //   data: orderedItems,
-      //   breweries,
-      //   suppliers,
-      //   kegsizes,
-      // })
-      const pdfFile = ''
-  
+      sendMail({
+        user: req.user,
+        attachments: [
+          {
+            filename: `order-details-${Date.now().toString()}.pdf`, content: pdfFile
+          }
+        ],
+      })
+
       return res.json({
         message: 'Record created successfully',
         'fileUrl': pdfFile,

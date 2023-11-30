@@ -45,10 +45,18 @@ app.use(
     })
 )
 // Apply the authenticate middleware to secure routes
-//app.use('/api', authenticate);
+app.use('/api', authenticate);
 
 /** Routes */
-app.post('/api/login', loginUser);
+app.get('/pdf', (req, res) =>{
+  const file = makePDF()
+
+  res.setHeader('Content-Type', 'application/pdf')
+  .setHeader('Content-Distribution', `attachment; filename=order-list.pdf`)
+  .sendFile(file)
+})
+
+app.post('/login', loginUser);
 app.use("/api/beers", beerRoutes);
 app.use("/api/tap", tapRoutes);
 app.use("/api/breweries", breweriesRoutes);
