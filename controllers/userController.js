@@ -94,7 +94,7 @@ const UserController = {
             return res.status(401).json({ message: 'Username or Password Incorrect' });
           }
     
-          const user = results[0];
+          let user = results[0];
     
           // Compare the provided password with the stored hashed password
           const isPasswordValid = user && (await bcrypt.compare(password, user.password));
@@ -105,13 +105,12 @@ const UserController = {
     
           // Generate a JSON Web Token (JWT) only if the credentials are correct
           const secretKey = process.env.JWT_SECRET_KEY;
-          const token = jwt.sign(
-            { userId: user.id, username: user.username, role: user.role },
-            secretKey,
-            { expiresIn: '1h' }
-          );
+          const data = { userId: user.id, username: user.username, role: user.role }
+          const token = jwt.sign(data, secretKey, { expiresIn: '1h' });
+          UserModel.updateUser(user.id, {...user, token}) // reset the token
+
     
-          res.status(200).json({ token });
+          res.status(200).json({ token, ...data });
         });
     }catch(error){
         res.status(500).json({ error, })
