@@ -6,13 +6,13 @@ const winston = require('winston');
 
 
 const mailTransporter = nodemailer.createTransport({
-  host: process.env.SMTP_MAIL_HOST || "smtp.forwardemail.net",
-  port: process.env.SMTP_MAIL_HOST || 465,
+  host: process.env.EMAIL_SMTP_HOST || "binsoft.online",
+  port: process.env.EMAIL_SMTP_PORT || 465,
   secure: true,
   auth: {
     // TODO: replace `user` and `pass` values from cpanel
-    user: process.env.SMTP_MAIL_USER,
-    pass: process.env.SMTP_MAIL_PASSWORD,
+    user: process.env.EMAIL_SMTP_USER,
+    pass: process.env.EMAIL_SMTP_PASSWORD,
   },
 });
 
