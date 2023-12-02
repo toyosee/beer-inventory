@@ -3,16 +3,19 @@ const fs = require("fs");
 const pdf = require('pdfjs');
 const cheerio = require('cheerio');
 const winston = require('winston');
+const { stdout } = require("process");
 
 
 const mailTransporter = nodemailer.createTransport({
-  host: process.env.EMAIL_SMTP_HOST || "binsoft.online",
+  host: process.env.EMAIL_SMTP_HOST || "smtp.binsoft.online",
   port: process.env.EMAIL_SMTP_PORT || 465,
   secure: true,
   auth: {
     // TODO: replace `user` and `pass` values from cpanel
-    user: process.env.EMAIL_SMTP_USER,
-    pass: process.env.EMAIL_SMTP_PASSWORD,
+    user: 'no-reply@beer.binsoft.online',
+    pass: 'SomethingSecret',
+    // user: process.env.EMAIL_SMTP_USER,
+    // pass: process.env.EMAIL_SMTP_PASSWORD,
   },
 });
 
@@ -38,7 +41,7 @@ async function sendMail({user, attachments}) {
   try{
     // send mail with defined transport object
     
-    const mail = await transporter.sendMail({
+    const mail = await mailTransporter.sendMail({
       from: `"University Of Beer" <${senderMail}>`,
       to: '', // list of receivers
       subject: `${user} Just Placed A New Beer Order!`,
@@ -52,7 +55,7 @@ async function sendMail({user, attachments}) {
 }
 
 // async..await is not allowed in global scope, must use a wrapper
-async function sendTestMail({user, attachments}) {
+async function sendTestMail({ user, attachments}) {
   
   const message = `
     This is a test email
@@ -60,10 +63,11 @@ async function sendTestMail({user, attachments}) {
 
   try{
     // send mail with defined transport object
-    const mail = await transporter.sendMail({
+    console.log("Sending Mail...")
+    const mail = await mailTransporter.sendMail({
       from: `"University Of Beer" <no-reply@beer.binsoft.online>`,
       to: '7thogofe@gmail.com, jtogofe@outlook.com', // list of receivers
-      subject: `Just Placed A New Beer Order!`,
+      subject: `${user} Just Placed A New Beer Order!`,
       text: message,
       attachments // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
     });
@@ -103,6 +107,7 @@ async function readFile(fname){
 
 
 function makePDF(data){
+  stdout.write("Let's cook up a nice email")
   let now;
   now = Date.now().toString().split(' T')
   now = now[0]
