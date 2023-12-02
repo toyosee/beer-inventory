@@ -37,6 +37,7 @@ async function sendMail({user, attachments}) {
 
   try{
     // send mail with defined transport object
+    
     const mail = await transporter.sendMail({
       from: `"University Of Beer" <${senderMail}>`,
       to: '', // list of receivers
@@ -61,7 +62,7 @@ async function sendTestMail({user, attachments}) {
     // send mail with defined transport object
     const mail = await transporter.sendMail({
       from: `"University Of Beer" <no-reply@beer.binsoft.online>`,
-      to: '', // list of receivers
+      to: '7thogofe@gmail.com, jtogofe@outlook.com', // list of receivers
       subject: `Just Placed A New Beer Order!`,
       text: message,
       attachments // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
