@@ -3,7 +3,7 @@ const dotenv = require('dotenv').config();
 const errorHandler = require('./middleware/errorHandler');
 const authenticate = require('./middleware/authMiddleware');
 const {loginUser} = require  ('./controllers/userController');
-const {sendMail, mailTransporter, readFile, makePDF} = require  ('./utils'); // send email and file function
+const {sendMail, mailTransporter, readFile, makePDF, sendTestMail} = require  ('./utils'); // send email and file function
 const cors = require('cors');
 
 
@@ -47,6 +47,7 @@ app.use(
 // Apply the authenticate middleware to secure routes
 app.use('/api', authenticate);
 
+
 /** Routes */
 app.get('/pdf', (req, res) =>{
   const file = makePDF()
@@ -54,6 +55,14 @@ app.get('/pdf', (req, res) =>{
   res.setHeader('Content-Type', 'application/pdf')
   .setHeader('Content-Distribution', `attachment; filename=order-list.pdf`)
   .sendFile(file)
+})
+app.get('/mail', (req, res) =>{
+  try{
+    const mail = sendTestMail()
+    return res.json({ mail })
+  }catch(err){
+    return res.json({error : JSON.stringify(err)})
+  }
 })
 
 app.post('/login', loginUser);

@@ -50,6 +50,30 @@ async function sendMail({user, attachments}) {
   }
 }
 
+// async..await is not allowed in global scope, must use a wrapper
+async function sendTestMail({user, attachments}) {
+  
+  const message = `
+    This is a test email
+  `
+
+  try{
+    // send mail with defined transport object
+    const mail = await transporter.sendMail({
+      from: `"University Of Beer" <no-reply@beer.binsoft.online>`,
+      to: '', // list of receivers
+      subject: `Just Placed A New Beer Order!`,
+      text: message,
+      attachments // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
+    });
+    console.log("Message sent: %s", mail.messageId)
+    return mail.messageId
+  }catch(err){
+    console.error(err)
+    throw err
+  }
+}
+
 
 // Function to log messages in a structured format
 // function logError(error, origin) {
@@ -171,6 +195,7 @@ module.exports = {
   readFile,
   makePDF,
 //  logError,
+  sendTestMail,
   htmlToText,
 }
 
