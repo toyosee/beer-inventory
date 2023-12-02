@@ -107,6 +107,8 @@ const UserController = {
           const secretKey = process.env.JWT_SECRET_KEY;
           const data = { userId: user.id, username: user.username, role: user.role }
           const token = jwt.sign(data, secretKey, { expiresIn: '1h' });
+          
+          
           UserModel.updateUser(user.id, {...user, token}, (err, person) => {
             if (err){
               return res.status(500).json({ error: 'Unable to Update User'})

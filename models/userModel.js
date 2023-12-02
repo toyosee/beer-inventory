@@ -24,7 +24,7 @@ const UserModel = {
   },
   
   updateUser: (userId, user, callback) => {
-    const { username, password, full_name, email, role } = user;
+    const { username, password, full_name, email, role, token } = user;
     const query = "UPDATE users SET `username` = ?, `password` = ?, `full_name` = ?, `email` = ?, `role` = ? `token` = ? WHERE user_id = ?";
     const values = [username, password, full_name, email, role, userId, token];
     db.query(query, values, callback);
