@@ -5,9 +5,7 @@ const SupplierModel = require('../models/supplierModel');
 const KegSizeModel = require('../models/kegsizeModel');
 const {sendMail, makePDF, htmlToText} = require('../utils');
 const UserModel = require('../models/userModel');
-const fs =require('fs')
-
-
+const fs =require('fs');
 
 
 
@@ -99,35 +97,34 @@ const BeerController = {
       SupplierModel.getAllBreweries(mapSuppliers)
       KegSizeModel.getAllSizes(mapKegSizes)
       
-      const pdf = makePDF({
-        user,
-        breweries,
-        suppliers,
-        kegsizes,
-      })
+      // const pdf = makePDF({
+      //   user,
+      //   breweries,
+      //   suppliers,
+      //   kegsizes,
+      // })
 
-      
-
-      let pdfFile;
-      fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
-        if(error) console.log(err);
-        pdfFile = data
-        // return data
-      })
+      // let pdfFile;
+      // fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
+      //   if(error) console.log(err);
+      //   pdfFile = data
+      //   // return data
+      // })
     
       // send Email to staff
       sendMail({
         user: req.user.full_name,
-        attachments: [
-          {
-            filename: `order-details-${Date.now().toString()}.pdf`, content: pdfFile
-          }
-        ],
+        // attachments: [
+        //   {
+        //     filename: `order-details-${Date.now().toString()}.pdf`, content: pdfFile
+        //   }
+        // ],
       })
+
 
       return res.json({
         message: 'Record created successfully',
-        'fileUrl': pdfFile,
+        // 'fileUrl': pdfFile,
         kegsizes,
         suppliers,
         breweries,
@@ -196,4 +193,6 @@ const BeerController = {
   }),
 };
 
+
 module.exports = BeerController;
+

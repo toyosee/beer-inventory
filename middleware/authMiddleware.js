@@ -13,9 +13,8 @@ const authenticate = asyncHandler(async (req, res, next) => {
       UserModel.getUserByToken(token, (err, users) => {
         req.user = users[0];
       });
-
-      // req.user = decodedToken;
       next();
+      // console.timeLog()
     } else {
       throw new Error('User Authentication failed again and again');
     }
