@@ -50,8 +50,13 @@ const BeerController = {
         BeerModel.createBeer(beerData, (err, data) => {
           if (err) {console.log(err)};
         });
-
       }
+      
+    // send Email to staff
+    let user = "Anonymous User";
+    if (req.user && req.user !== undefined){
+        user = req.user.full_name;
+    }
 
       const breweries = []
       const suppliers = []
@@ -107,15 +112,9 @@ const BeerController = {
 
       let pdfFile;
       fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
-        if(error) console.log(err);
+        if(err){ console.log(err) };
         pdfFile = data
       })
-    
-      // send Email to staff
-      let user = "Anonymous User";
-      if (req.user && req.user !== undefined){
-        user = req.user.full_name;
-      }
 
       sendMail({
         user,
