@@ -6,9 +6,12 @@ const UserModel = require('../models/userModel');
 const UserController = {
   getUsers: asyncHandler(async (req, res) => {
     UserModel.getUsers((err, data) => {
-      if (err) return res.status(500).json({ error: 'Internal Server Error' });
+      if (err) {
+          return res.status(500).json({ error: 'Internal Server Error' })
+        }
       return res.status(200).json(data);
     });
+    
   }),
   
   registerUser: asyncHandler(async (req, res) => {
@@ -77,44 +80,49 @@ const UserController = {
   }),
 
   loginUser: asyncHandler(async (req, res) => {
-    try{
-        const { username, password } = req.body;
-        if (!username || !password) {
-          res.status(400);
-          throw new Error("All fields are mandatory");
-        }
-    
-        UserModel.getUserByUsername(username, async (err, results) => {
-          if (err) {
+    try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        res.status(400);
+        throw new Error("All fields are mandatory");
+    }
+
+    UserModel.getUserByUsername(username, async (err, results) => {
+        if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Internal Server Error' });
-          }
-    
-          if (results.length === 0) {
+        }
+
+        if (results.length === 0) {
             return res.status(401).json({ message: 'Username or Password Incorrect' });
-          }
-    
-          const user = results[0];
-    
-          // Compare the provided password with the stored hashed password
-          const isPasswordValid = user && (await bcrypt.compare(password, user.password));
-    
-          if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Username or Password Incorrect' });
-          }
-    
-          // Generate a JSON Web Token (JWT) only if the credentials are correct
-          const secretKey = process.env.JWT_SECRET_KEY;
-          const token = jwt.sign(
-            { userId: user.id, username: user.username, role: user.role },
-            secretKey,
-            { expiresIn: '1h' }
-          );
-    
-          res.status(200).json({ token });
+        }
+
+        let user = results[0];
+
+        // Compare the provided password with the stored hashed password
+        const isPasswordValid = user && (await bcrypt.compare(password, user.password));
+
+        if (!isPasswordValid) {
+          return res.status(401).json({ message: 'Username or Password Incorrect' });
+        }
+
+        // Generate a JSON Web Token (JWT) only if the credentials are correct
+        const secretKey = process.env.JWT_SECRET_KEY;
+        const data = { userId: user.id, username: user.username, role: user.role }
+        const token = jwt.sign(data, secretKey, { expiresIn: '1h' });
+
+        UserModel.updateUser(user.id, { ...user, token }, (err, person) => {
+            if (err) {
+                throw err
+                // return res.status(500).json({ error: 'Unable to Update User' })
+            }
+
+            // Only send the response after updating the user
+            res.status(200).json({ token, ...data });
         });
-    }catch(error){
-        res.status(500).json({ error, })
+      });
+    } catch (error) {
+      res.status(500).json({ error, })
     }
   }),
 

@@ -355,6 +355,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL, --- Add token field for reverse-identification ---
   `role` enum('Super Admin','Admin','Basic User') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

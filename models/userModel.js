@@ -18,10 +18,15 @@ const UserModel = {
     db.query(query, [userId], callback);
   },
   
+  getUserByToken: (token, callback) => {
+    const query = "SELECT * FROM users WHERE token = ?";
+    db.query(query, [token], callback);
+  },
+  
   updateUser: (userId, user, callback) => {
-    const { username, password, full_name, email, role } = user;
-    const query = "UPDATE users SET `username` = ?, `password` = ?, `full_name` = ?, `email` = ?, `role` = ? WHERE user_id = ?";
-    const values = [username, password, full_name, email, role, userId];
+    const { username, password, full_name, email, role, token } = user;
+    const query = "UPDATE users SET `username` = ?, `password` = ?, `full_name` = ?, `email` = ?, `role` = ?, `token` = ? WHERE user_id = ?";
+    const values = [username, password, full_name, email, role, userId, token];
     db.query(query, values, callback);
   },
   

@@ -3,8 +3,10 @@ const dotenv = require('dotenv').config();
 const errorHandler = require('./middleware/errorHandler');
 const authenticate = require('./middleware/authMiddleware');
 const {loginUser} = require  ('./controllers/userController');
-const {sendMail, mailTransporter, readFile, makePDF} = require  ('./utils'); // send email and file function
+const {sendMail, mailTransporter, readFile, makePDF, sendTestMail} = require  ('./utils'); // send email and file function
 const cors = require('cors');
+
+
 
 // Import routers for different resources
 const beerRoutes = require('./routes/beerRoutes');
@@ -14,6 +16,7 @@ const categoriesRoutes = require('./routes/categoryRoute');
 const kegsizeRoutes = require('./routes/kegsizeRoute');
 const usersRoutes = require('./routes/userRoutes');
 const tapRoutes = require('./routes/tapRoutes');
+const logMiddleware = require('./middleware/logMiddleware');
 
 
 const app = express();
@@ -36,6 +39,7 @@ args.forEach((arg, index) => {
 // adding an express.json() middleware parser to receive JSON objects
 app.use(express.json());
 app.use(errorHandler);
+app.use(logMiddleware);
 app.use(
     cors({
     	origin: '*',
@@ -43,10 +47,33 @@ app.use(
     })
 )
 // Apply the authenticate middleware to secure routes
-//app.use('/api', authenticate);
+// app.use('/api', authenticate);
+
 
 /** Routes */
-app.post('/api/login', loginUser);
+app.get('/pdf', (req, res) =>{
+  const file = makePDF()
+
+  // res.setHeader('Content-Type', 'application/pdf')
+  // .setHeader('Content-Distribution', `attachment; filename=order-list.pdf`)
+  return res.sendFile(file)
+})
+
+
+app.get('/mail', async (req, res) => {
+  console.log("Let's send some mail")
+  try{
+    const mail = sendTestMail({
+      attachments: [],
+      user: "Joel Tanko"
+    })
+    return res.json({ mail })
+  }catch(err){
+    return res.json({error : JSON.stringify(err)})
+  }
+})
+
+app.post('/login', loginUser);
 app.use("/api/beers", beerRoutes);
 app.use("/api/tap", tapRoutes);
 app.use("/api/breweries", breweriesRoutes);
