@@ -32,8 +32,12 @@ const mailTransporter = nodemailer.createTransport({
 // async..await is not allowed in global scope, must use a wrapper
 async function sendMail({user, attachments}) {
   
-  const message = `Please print and replace your Ordered Beers List.`
+  const domainName = "https://beer.binsoft.online"
+  const message = `
+    Please print and replace your Ordered Beers List.
 
+    Here's a link to a printable version of the beer order list: ${domainName}/file/${attachments[0].filename}
+  `
   try{
     // send mail with defined transport object
     console.log("Sending Mail...")
@@ -49,32 +53,6 @@ async function sendMail({user, attachments}) {
     console.error()
   }
 }
-
-// async..await is not allowed in global scope, must use a wrapper
-async function sendTestMail({ user, attachments}) {
-  
-  const message = `
-    This is a test email
-  `
-
-  try{
-    // send mail with defined transport object
-    console.log("Sending Mail...")
-    const mail = await mailTransporter.sendMail({
-      from: `"University Of Beer" <no-reply@beer.binsoft.online>`,
-      to: '7thogofe@gmail.com, jtogofe@outlook.com', // list of receivers
-      subject: `${user} Just Placed A New Beer Order!`,
-      text: message,
-      attachments // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
-    });
-    console.log("Message sent: %s", mail.messageId)
-    return mail.messageId
-  }catch(err){
-    console.error(err)
-    throw err
-  }
-}
-
 
 // Function to log messages in a structured format
 // function logError(error, origin) {
@@ -117,7 +95,7 @@ function makePDF(data){
   })
   
   doc.pipe(fs.createWriteStream(fname))
-  doc.text("Here are the latest order\n", 0, 0, {
+  doc.text("Here are the latest order\n", {
     alignment: 'center',
     fontSize: 20,
     paddingBottom: 10,
@@ -163,7 +141,7 @@ function makePDF(data){
   if (data){
     for(let idx = 0; idx < data.orderedItems.length; idx++){
       const row = table.row();
-      const item= data.orderedItems[idx]
+      const item = data.orderedItems[idx]
       row.cell(`${idx+1}`)
       row.cell(item.arrival_date)
       row.cell(data.suppliers[item.supplier_id])
@@ -196,7 +174,6 @@ module.exports = {
   readFile,
   makePDF,
 //  logError,
-  sendTestMail,
   htmlToText,
 }
 

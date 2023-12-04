@@ -110,17 +110,24 @@ const BeerController = {
         kegsizes,
       })
 
-      let pdfFile;
-      fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
+      let pdfFile, fname;
+      
+      await fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
         if(err){ console.log(err) };
         pdfFile = data
       })
+
+      if (pdf.includes('/')){
+        fname = pdf.split('/').pop() 
+      }else{
+        fname = pdf.split('\\').pop() 
+      }
 
       sendMail({
         user,
         attachments: [
           {
-            filename: 'ordered-items.pdf',
+            filename: fname,
             content: pdfFile
           },
         ]

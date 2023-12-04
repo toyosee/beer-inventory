@@ -1,9 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
+const path = require('path');
 const errorHandler = require('./middleware/errorHandler');
 const authenticate = require('./middleware/authMiddleware');
 const {loginUser} = require  ('./controllers/userController');
-const {sendMail, mailTransporter, readFile, makePDF, sendTestMail} = require  ('./utils'); // send email and file function
+const {sendMail, mailTransporter, readFile} = require  ('./utils'); // send email and file function
 const cors = require('cors');
 
 
@@ -51,27 +52,20 @@ app.use(
 
 
 /** Routes */
-app.get('/pdf', (req, res) =>{
-  const file = makePDF()
 
-  // res.setHeader('Content-Type', 'application/pdf')
-  // .setHeader('Content-Distribution', `attachment; filename=order-list.pdf`)
-  return res.sendFile(file)
-})
-
-
-app.get('/mail', async (req, res) => {
-  console.log("Let's send some mail")
-  try{
-    const mail = sendTestMail({
-      attachments: [],
-      user: "Joel Tanko"
-    })
-    return res.json({ mail })
-  }catch(err){
-    return res.json({error : JSON.stringify(err)})
+app.get('/file/:fileName', async (req, res) => {
+  try {
+    // open the file using the file name param
+    const {fileName} = req.params;
+    const data = path.join(process.cwd(),  `files`, fileName)
+    
+    res.sendFile(data)
+  } catch (error) {
+    res.status(404).json({ error })
   }
 })
+
+
 
 app.post('/login', loginUser);
 app.use("/api/beers", beerRoutes);
