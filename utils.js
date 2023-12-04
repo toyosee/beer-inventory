@@ -90,7 +90,6 @@ const orderPlacedHandler = async ({orderedItems, user }) => {
       },
     ]
   })
-  makePDF({ orderedItems, user, breweries, suppliers, kegsizes })
 };
 
 
