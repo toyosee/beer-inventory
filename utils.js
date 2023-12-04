@@ -4,6 +4,94 @@ const pdf = require('pdfjs');
 const cheerio = require('cheerio');
 const winston = require('winston');
 const { stdout } = require("process");
+const { EventEmitter } = require('events');
+const BreweryModel = require('../models/breweryModel');
+const SupplierModel = require('../models/supplierModel');
+const KegSizeModel = require('../models/kegsizeModel');
+
+const orderPlacedSignal = new EventEmitter();
+
+// Your order processing logic
+const orderPlacedHandler = async ({orderedItems, user }) => {
+  
+  const breweries = []
+  const suppliers = []
+  const kegsizes = []
+
+  function mapBreweries(err, data){
+    if(err){
+    }else{
+      data.forEach(val => {
+        breweries.push({
+          id: val.brewery_id,
+          name: val.name
+        })
+      })
+    }
+  }
+
+  function mapSuppliers(err, data){
+    if(err){
+    }else{
+      data.forEach(val => {
+        suppliers.push({
+          id: val.supplier_id,
+          name: val.name
+        })
+      })
+    }
+  }
+
+  function mapKegSizes(err, data){
+    if(err){
+    }else{
+      data.forEach(val => {
+        kegsizes.push({
+          id: val.keg_size_id,
+          name: val.name
+        })
+      })
+    }
+  }
+
+  BreweryModel.getAllBreweries(mapBreweries)
+  SupplierModel.getAllSuppliers(mapSuppliers)
+  KegSizeModel.getAllSizes(mapKegSizes)
+  
+  const pdf = makePDF({
+    user,
+    breweries,
+    suppliers,
+    orderedItems,
+    kegsizes,
+  })
+
+  let fname;
+  
+  const pdfFile = await fs.readFileSync(pdf, {encoding: "binary" }, (err, data) => {
+    if(err){ console.log(err) };
+    return data
+  })
+
+  if (pdf.includes('/')){
+    fname = pdf.split('/').pop() 
+  }else{
+    fname = pdf.split('\\').pop() 
+  }
+
+  
+  // ... create the pdf and send the email  ...
+  sendMail({
+    user,
+    attachments: [
+      {
+        filename: fname,
+        content: pdfFile
+      },
+    ]
+  })
+  makePDF({ orderedItems, user, breweries, suppliers, kegsizes })
+};
 
 
 const mailTransporter = nodemailer.createTransport({
@@ -168,11 +256,15 @@ function htmlToText(htmlMessage) {
 }
 
 
+orderPlacedSignal.on('orderPlaced', orderPlacedHandler)
+
+
 module.exports = {
   sendMail,
   mailTransporter,
   readFile,
   makePDF,
+  orderPlacedSignal,
 //  logError,
   htmlToText,
 }

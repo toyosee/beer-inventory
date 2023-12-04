@@ -1,11 +1,11 @@
 const asyncHandler = require('express-async-handler');
 const BeerModel = require('../models/beerModel');
-const BreweryModel = require('../models/breweryModel');
-const SupplierModel = require('../models/supplierModel');
-const KegSizeModel = require('../models/kegsizeModel');
-const {sendMail, makePDF, htmlToText} = require('../utils');
+const {sendMail, makePDF, htmlToText, orderPlacedSignal} = require('../utils');
 const UserModel = require('../models/userModel');
-const fs =require('fs');
+const fs = require('fs');
+const util = require('util');
+
+util.promisify(fs.readFile)
 
 
 
@@ -52,87 +52,14 @@ const BeerController = {
         });
       }
       
-    // send Email to staff
-    let user = "Anonymous User";
-    if (req.user && req.user !== undefined){
+      // send Email to staff
+      let user = "Anonymous User";
+      if (req.user && req.user !== undefined){
         user = req.user.full_name;
-    }
-
-      const breweries = []
-      const suppliers = []
-      const kegsizes = []
-
-      function mapBreweries(err, data){
-        if(err){
-        }else{
-          data.forEach(val => {
-            breweries.push({
-              id: val.brewery_id,
-              name: val.name
-            })
-          })
-        }
       }
 
-      function mapSuppliers(err, data){
-        if(err){
-        }else{
-          data.forEach(val => {
-            suppliers.push({
-              id: val.supplier_id,
-              name: val.name
-            })
-          })
-        }
-      }
-
-      function mapKegSizes(err, data){
-        if(err){
-        }else{
-          data.forEach(val => {
-            kegsizes.push({
-              id: val.keg_size_id,
-              name: val.name
-            })
-          })
-        }
-      }
-
-      BreweryModel.getAllBreweries(mapBreweries)
-      SupplierModel.getAllSuppliers(mapSuppliers)
-      KegSizeModel.getAllSizes(mapKegSizes)
-      
-      const pdf = makePDF({
-        user,
-        breweries,
-        suppliers,
-        orderedItems,
-        kegsizes,
-      })
-
-      let pdfFile, fname;
-      
-      await fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
-        if(err){ console.log(err) };
-        pdfFile = data
-      })
-
-      if (pdf.includes('/')){
-        fname = pdf.split('/').pop() 
-      }else{
-        fname = pdf.split('\\').pop() 
-      }
-
-      sendMail({
-        user,
-        attachments: [
-          {
-            filename: fname,
-            content: pdfFile
-          },
-        ]
-      })
-
+      // Emit an event when the order is placed
+      orderPlacedSignal.emit('orderPlaced', order);
 
       return res.json({
         message: 'Record created successfully',
