@@ -1,148 +1,77 @@
-(node:37623) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:110:21)
-(Use `node --trace-warnings ...` to show where the warning was created)
-(node:37623) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
-(node:37623) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
-(node:37623) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:110:21)
-(node:37623) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
-(node:37623) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:110:21)
-(node:37623) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 3)
-(node:92269) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:110:21)
-(Use `node --trace-warnings ...` to show where the warning was created)
-(node:92269) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
-(node:92269) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
-(node:92269) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:110:21)
-(node:92269) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
-/home/unitvjdm/beer.binsoft.online/beer-inventory/utils.js:66
-      subject: `Just Placed A New Beer Order!`,
-      ^^^^^^^
+/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:116
+                throw err
+                ^
 
-SyntaxError: Unexpected identifier
-    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
-    at Module._compile (internal/modules/cjs/loader.js:1049:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-    at Module.load (internal/modules/cjs/loader.js:950:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
-    at Module.require (internal/modules/cjs/loader.js:974:19)
-    at require (internal/modules/cjs/helpers.js:101:18)
-    at Object.<anonymous> (/home/unitvjdm/beer.binsoft.online/beer-inventory/server.js:6:70)
-    at Module._compile (internal/modules/cjs/loader.js:1085:14)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-/home/unitvjdm/beer.binsoft.online/beer-inventory/utils.js:66
-      subject: `Just Placed A New Beer Order!`,
-      ^^^^^^^
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '`token` = NULL WHERE user_id = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vy...' at line 1
+    at Packet.asError (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+    at Query.execute (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/connection.js:478:34)
+    at PacketParser.onPacket (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/connection.js:97:12)
+    at PacketParser.executeStart (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/connection.js:104:25)
+    at Socket.emit (events.js:400:28)
+    at addChunk (internal/streams/readable.js:293:12)
+    at readableAddChunk (internal/streams/readable.js:267:9)
+    at Socket.Readable.push (internal/streams/readable.js:206:10) {
+  code: 'ER_PARSE_ERROR',
+  errno: 1064,
+  sqlState: '42000',
+  sqlMessage: "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '`token` = NULL WHERE user_id = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vy...' at line 1",
+  sql: "UPDATE users SET `username` = 'jtogofe', `password` = '$2a$12$c/4OAEX3ycImDZ/N/SSRE.h2UdKcGghDP1oB0rKcZBtaK4.K.K9mG', `full_name` = 'Joel Tanko', `email` = '7thogofe@gmail.com', `role` = 'Super Admin' `token` = NULL WHERE user_id = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp0b2dvZmUiLCJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpYXQiOjE3MDE2ODM2NzMsImV4cCI6MTcwMTY4NzI3M30.S0gKe835sYHVyciSTKjcNmQgBFYoob_PTbNEI8QhOUM'",
+  fatal: true
+}
+/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:116
+                throw err
+                ^
 
-SyntaxError: Unexpected identifier
-    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
-    at Module._compile (internal/modules/cjs/loader.js:1049:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-    at Module.load (internal/modules/cjs/loader.js:950:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
-    at Module.require (internal/modules/cjs/loader.js:974:19)
-    at require (internal/modules/cjs/helpers.js:101:18)
-    at Object.<anonymous> (/home/unitvjdm/beer.binsoft.online/beer-inventory/server.js:6:70)
-    at Module._compile (internal/modules/cjs/loader.js:1085:14)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-/home/unitvjdm/beer.binsoft.online/beer-inventory/utils.js:66
-      subject: `Just Placed A New Beer Order!`,
-      ^^^^^^^
-
-SyntaxError: Unexpected identifier
-    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
-    at Module._compile (internal/modules/cjs/loader.js:1049:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-    at Module.load (internal/modules/cjs/loader.js:950:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
-    at Module.require (internal/modules/cjs/loader.js:974:19)
-    at require (internal/modules/cjs/helpers.js:101:18)
-    at Object.<anonymous> (/home/unitvjdm/beer.binsoft.online/beer-inventory/server.js:6:70)
-    at Module._compile (internal/modules/cjs/loader.js:1085:14)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-/home/unitvjdm/beer.binsoft.online/beer-inventory/utils.js:66
-      subject: `Just Placed A New Beer Order!`,
-      ^^^^^^^
-
-SyntaxError: Unexpected identifier
-    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
-    at Module._compile (internal/modules/cjs/loader.js:1049:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-    at Module.load (internal/modules/cjs/loader.js:950:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
-    at Module.require (internal/modules/cjs/loader.js:974:19)
-    at require (internal/modules/cjs/helpers.js:101:18)
-    at Object.<anonymous> (/home/unitvjdm/beer.binsoft.online/beer-inventory/server.js:6:70)
-    at Module._compile (internal/modules/cjs/loader.js:1085:14)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-/home/unitvjdm/beer.binsoft.online/beer-inventory/utils.js:66
-      subject: `Just Placed A New Beer Order!`,
-      ^^^^^^^
-
-SyntaxError: Unexpected identifier
-    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
-    at Module._compile (internal/modules/cjs/loader.js:1049:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-    at Module.load (internal/modules/cjs/loader.js:950:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
-    at Module.require (internal/modules/cjs/loader.js:974:19)
-    at require (internal/modules/cjs/helpers.js:101:18)
-    at Object.<anonymous> (/home/unitvjdm/beer.binsoft.online/beer-inventory/server.js:6:70)
-    at Module._compile (internal/modules/cjs/loader.js:1085:14)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-/home/unitvjdm/beer.binsoft.online/beer-inventory/utils.js:66
-      subject: `Just Placed A New Beer Order!`,
-      ^^^^^^^
-
-SyntaxError: Unexpected identifier
-    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
-    at Module._compile (internal/modules/cjs/loader.js:1049:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-    at Module.load (internal/modules/cjs/loader.js:950:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
-    at Module.require (internal/modules/cjs/loader.js:974:19)
-    at require (internal/modules/cjs/helpers.js:101:18)
-    at Object.<anonymous> (/home/unitvjdm/beer.binsoft.online/beer-inventory/server.js:6:70)
-    at Module._compile (internal/modules/cjs/loader.js:1085:14)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-(node:186827) UnhandledPromiseRejectionWarning: TypeError: Cannot destructure property 'user' of 'undefined' as it is undefined.
-    at sendTestMail (/home/unitvjdm/beer.binsoft.online/beer-inventory/utils.js:55:30)
-    at /home/unitvjdm/beer.binsoft.online/beer-inventory/server.js:61:18
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '`token` = NULL WHERE user_id = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vy...' at line 1
+    at Packet.asError (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+    at Query.execute (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/connection.js:478:34)
+    at PacketParser.onPacket (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/connection.js:97:12)
+    at PacketParser.executeStart (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/mysql2/lib/connection.js:104:25)
+    at Socket.emit (events.js:400:28)
+    at addChunk (internal/streams/readable.js:293:12)
+    at readableAddChunk (internal/streams/readable.js:267:9)
+    at Socket.Readable.push (internal/streams/readable.js:206:10) {
+  code: 'ER_PARSE_ERROR',
+  errno: 1064,
+  sqlState: '42000',
+  sqlMessage: "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '`token` = NULL WHERE user_id = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vy...' at line 1",
+  sql: "UPDATE users SET `username` = 'jtogofe', `password` = '$2a$12$c/4OAEX3ycImDZ/N/SSRE.h2UdKcGghDP1oB0rKcZBtaK4.K.K9mG', `full_name` = 'Joel Tanko', `email` = '7thogofe@gmail.com', `role` = 'Super Admin' `token` = NULL WHERE user_id = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp0b2dvZmUiLCJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpYXQiOjE3MDE2ODM2NzQsImV4cCI6MTcwMTY4NzI3NH0.gdJlc7Tu72Bl5FKVzK2URtiihOnZ9VzjZlcbei5eBTU'",
+  fatal: true
+}
+TypeError: SupplierModel.getAllBreweries is not a function
+    at /home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/beerController.js:97:21
+    at asyncUtilWrap (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express-async-handler/index.js:3:20)
     at Layer.handle [as handle_request] (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/layer.js:95:5)
     at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:144:13)
+    at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:140:7)
     at Route.dispatch (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:114:3)
     at Layer.handle [as handle_request] (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/layer.js:95:5)
     at /home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:284:15
     at Function.process_params (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:346:12)
     at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:280:10)
-    at cors (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/cors/lib/index.js:188:7)
-(Use `node --trace-warnings ...` to show where the warning was created)
-(node:186827) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
-(node:186827) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
-(node:186827) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:112:21)
-(node:186827) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
-(node:186827) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:112:21)
-(node:186827) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 3)
-(node:186827) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:112:21)
-(node:186827) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 4)
-(node:186827) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:112:21)
-(node:186827) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 5)
-(node:186827) UnhandledPromiseRejectionWarning: ReferenceError: token is not defined
-    at Object.updateUser (/home/unitvjdm/beer.binsoft.online/beer-inventory/models/userModel.js:29:73)
-    at Query.onResult (/home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/userController.js:112:21)
-(node:186827) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 6)
+TypeError: SupplierModel.getAllBreweries is not a function
+    at /home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/beerController.js:97:21
+    at asyncUtilWrap (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express-async-handler/index.js:3:20)
+    at Layer.handle [as handle_request] (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:144:13)
+    at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:140:7)
+    at Route.dispatch (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/layer.js:95:5)
+    at /home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:280:10)
+TypeError: SupplierModel.getAllBreweries is not a function
+    at /home/unitvjdm/beer.binsoft.online/beer-inventory/controllers/beerController.js:97:21
+    at asyncUtilWrap (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express-async-handler/index.js:3:20)
+    at Layer.handle [as handle_request] (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:144:13)
+    at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:140:7)
+    at Route.dispatch (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/layer.js:95:5)
+    at /home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/unitvjdm/nodevenv/beer.binsoft.online/beer-inventory/14/lib/node_modules/express/lib/router/index.js:280:10)
