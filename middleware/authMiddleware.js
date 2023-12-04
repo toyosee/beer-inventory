@@ -11,7 +11,7 @@ const authenticate = asyncHandler(async (req, res, next) => {
       const decodedToken = jwt.verify(token, secretKey);
 
       UserModel.getUserByToken(token, (err, users) => {
-        req.user = users[0];
+        req.user = users[0] || {full_name: 'Anonymous User', id: 0.13, email: "NA", role: "NA", password: "NA"};
       });
       next();
       // console.timeLog()

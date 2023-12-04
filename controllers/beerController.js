@@ -94,7 +94,7 @@ const BeerController = {
       }
 
       BreweryModel.getAllBreweries(mapBreweries)
-      SupplierModel.getAllBreweries(mapSuppliers)
+      SupplierModel.getAllSuppliers(mapSuppliers)
       KegSizeModel.getAllSizes(mapKegSizes)
       
       // const pdf = makePDF({
@@ -113,12 +113,7 @@ const BeerController = {
     
       // send Email to staff
       sendMail({
-        user: req.user.full_name,
-        // attachments: [
-        //   {
-        //     filename: `order-details-${Date.now().toString()}.pdf`, content: pdfFile
-        //   }
-        // ],
+        // user: req.user.full_name, || "Anonymous User"
       })
 
 
@@ -131,10 +126,12 @@ const BeerController = {
       });
 
     }catch(err){      
-      return res.json({
-        error: 'Server Error',
-        stack: JSON.stringify(err)
-      })
+    //   return res.json({
+    //     error: 'Server Error',
+    //     stack: JSON.stringify(err)
+    //   })
+    
+    throw err
     }
   }),
 

@@ -32,18 +32,14 @@ const mailTransporter = nodemailer.createTransport({
 // async..await is not allowed in global scope, must use a wrapper
 async function sendMail({user, attachments}) {
   
-  const message = `
-    ${user} has placed a new order for ${breweryName} from ${supplierName}. 
-    Please print and replace your Ordered Beers List.
-    ${pdfFile}
-  `
+  const message = `Please print and replace your Ordered Beers List.`
 
   try{
     // send mail with defined transport object
-    
+    console.log("Sending Mail...")
     const mail = await mailTransporter.sendMail({
-      from: `"University Of Beer" <${senderMail}>`,
-      to: '', // list of receivers
+      from: `"University Of Beer" <no-reply@beer.binsoft.online>`,
+      to: '7thogofe@gmail.com, jtogofe@outlook.com', // list of receivers
       subject: `${user} Just Placed A New Beer Order!`,
       text: message,
       attachments // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
