@@ -104,20 +104,19 @@ async function readFile(fname){
 
 function makePDF(data){
   stdout.write("Let's cook up a nice email")
+
   let now;
   now = Date.now().toString().split(' T')
   now = now[0]
   const fname = `${process.cwd()}/files/beer-order-${now}.pdf`;
+  
   const doc = new pdf.Document({
     font:    require('pdfjs/font/Helvetica'),
     padding: 20,
     fontSize: 8
   })
+  
   doc.pipe(fs.createWriteStream(fname))
-
-  
-  // text -> pdf body
-  
   doc.text("Here are the latest order\n", 0, 0, {
     alignment: 'center',
     fontSize: 20,
@@ -142,7 +141,6 @@ function makePDF(data){
     "If a keg doesn't come in or if something arrives that is not on this list, call Bob Janis immediately (916)759-7739"
   )
 
-
   // create the table 
   const table = doc.table({
     widths: [30, 70, 70, 70, 70, 70, 70,],
@@ -163,15 +161,16 @@ function makePDF(data){
 
   // INFO: write the rows of ordered items
   if (data){
-    for(let item of data.orderedItems){
+    for(let idx = 0; idx < data.orderedItems.length; idx++){
       const row = table.row();
-      row.cell(item.name)
-      row.cell(item.type)
-      row.cell(item.supplier)
-      row.cell(item.brewery)
+      const item= data.orderedItems[idx]
+      row.cell(`${idx+1}`)
       row.cell(item.arrival_date)
-      row.cell(item.keg_size)
+      row.cell(data.suppliers[item.supplier_id])
+      row.cell(item.name)
       row.cell(item.price_per_keg)
+      row.cell(data.breweries[item.brewery_id])
+      row.cell(data.kegsizes[item.keg_size_id])
     }
   }else{
 
