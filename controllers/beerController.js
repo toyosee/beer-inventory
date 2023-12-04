@@ -60,9 +60,9 @@ const BeerController = {
       function mapBreweries(err, data){
         if(err){
         }else{
-          data.map((val, idx, arr) => {
+          data.forEach(val => {
             breweries.push({
-              id: val.id,
+              id: val.brewery_id,
               name: val.name
             })
           })
@@ -72,9 +72,9 @@ const BeerController = {
       function mapSuppliers(err, data){
         if(err){
         }else{
-          data.map((val, idx, arr) => {
+          data.forEach(val => {
             suppliers.push({
-              id: val.id,
+              id: val.supplier_id,
               name: val.name
             })
           })
@@ -84,9 +84,9 @@ const BeerController = {
       function mapKegSizes(err, data){
         if(err){
         }else{
-          data.map((val, idx, arr) => {
+          data.forEach(val => {
             kegsizes.push({
-              id: val.id,
+              id: val.keg_size_id,
               name: val.name
             })
           })
@@ -97,23 +97,34 @@ const BeerController = {
       SupplierModel.getAllSuppliers(mapSuppliers)
       KegSizeModel.getAllSizes(mapKegSizes)
       
-      // const pdf = makePDF({
-      //   user,
-      //   breweries,
-      //   suppliers,
-      //   kegsizes,
-      // })
+      const pdf = makePDF({
+        user,
+        breweries,
+        suppliers,
+        orderedItems,
+        kegsizes,
+      })
 
-      // let pdfFile;
-      // fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
-      //   if(error) console.log(err);
-      //   pdfFile = data
-      //   // return data
-      // })
+      let pdfFile;
+      fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
+        if(error) console.log(err);
+        pdfFile = data
+      })
     
       // send Email to staff
+      let user = "Anonymous User";
+      if (req.user && req.user !== undefined){
+        user = req.user.full_name;
+      }
+
       sendMail({
-        // user: req.user.full_name, || "Anonymous User"
+        user,
+        attachments: [
+          {
+            filename: 'ordered-items.pdf',
+            content: pdfFile
+          },
+        ]
       })
 
 
