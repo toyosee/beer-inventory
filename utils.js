@@ -163,6 +163,7 @@ function makePDF(data){
   if (data){
     for(let idx = 0; idx < data.orderedItems.length; idx++){
       const row = table.row();
+      const item= data.orderedItems[idx]
       row.cell(`${idx+1}`)
       row.cell(item.arrival_date)
       row.cell(data.suppliers[item.supplier_id])
