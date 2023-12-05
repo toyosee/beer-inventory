@@ -2,11 +2,6 @@ const asyncHandler = require('express-async-handler');
 const BeerModel = require('../models/beerModel');
 const {sendMail, makePDF, htmlToText, orderPlacedSignal} = require('../utils');
 const UserModel = require('../models/userModel');
-const fs = require('fs');
-const util = require('util');
-
-util.promisify(fs.readFile)
-
 
 
 const BeerController = {
@@ -59,23 +54,14 @@ const BeerController = {
       }
 
       // Emit an event when the order is placed
-      orderPlacedSignal.emit('orderPlaced', order);
+      orderPlacedSignal.emit('orderPlaced', {orderedItems, user});
 
       return res.json({
         message: 'Record created successfully',
-        // 'fileUrl': pdfFile,
-        kegsizes,
-        suppliers,
-        breweries,
       });
 
     }catch(err){      
-    //   return res.json({
-    //     error: 'Server Error',
-    //     stack: JSON.stringify(err)
-    //   })
-    
-    throw err
+      throw err
     }
   }),
 
