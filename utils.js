@@ -68,10 +68,10 @@ async function orderPlacedHandler ({orderedItems, user }) {
 
   let fname;
 
-  if (pdf.includes('/')){
-    fname = pdf.split('/').pop() 
+  if (file.includes('/')){
+    fname = file.split('/').pop() 
   }else{
-    fname = pdf.split('\\').pop() 
+    fname = file.split('\\').pop() 
   }
 
   
@@ -85,7 +85,7 @@ async function orderPlacedHandler ({orderedItems, user }) {
       },
     ]
   })
-  
+
 };
 
 
@@ -164,8 +164,6 @@ async function readFile(fname){
 
 
 function makePDF(data){
-  stdout.write("Let's cook up a nice email")
-
   let now;
   now = Date.now().toString().split(' T')
   now = now[0]
