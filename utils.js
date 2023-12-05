@@ -5,14 +5,14 @@ const cheerio = require('cheerio');
 const winston = require('winston');
 const { stdout } = require("process");
 const { EventEmitter } = require('events');
-const BreweryModel = require('../models/breweryModel');
-const SupplierModel = require('../models/supplierModel');
-const KegSizeModel = require('../models/kegsizeModel');
+const BreweryModel = require('./models/breweryModel');
+const SupplierModel = require('./models/supplierModel');
+const KegSizeModel = require('./models/kegsizeModel');
 
 const orderPlacedSignal = new EventEmitter();
 
 // Your order processing logic
-const orderPlacedHandler = async ({orderedItems, user }) => {
+async function orderPlacedHandler ({orderedItems, user }) {
   
   const breweries = []
   const suppliers = []
@@ -58,7 +58,7 @@ const orderPlacedHandler = async ({orderedItems, user }) => {
   SupplierModel.getAllSuppliers(mapSuppliers)
   KegSizeModel.getAllSizes(mapKegSizes)
   
-  const pdf = makePDF({
+  const file = makePDF({
     user,
     breweries,
     suppliers,
@@ -67,11 +67,6 @@ const orderPlacedHandler = async ({orderedItems, user }) => {
   })
 
   let fname;
-  
-  const pdfFile = await fs.readFileSync(pdf, {encoding: "binary" }, (err, data) => {
-    if(err){ console.log(err) };
-    return data
-  })
 
   if (pdf.includes('/')){
     fname = pdf.split('/').pop() 
@@ -86,10 +81,11 @@ const orderPlacedHandler = async ({orderedItems, user }) => {
     attachments: [
       {
         filename: fname,
-        content: pdfFile
+        path: file
       },
     ]
   })
+  
 };
 
 
