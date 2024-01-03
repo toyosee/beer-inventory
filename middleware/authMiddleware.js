@@ -13,6 +13,7 @@ const authenticate = asyncHandler(async (req, res, next) => {
       UserModel.getUserByToken(token, (err, users) => {
         req.user = users[0] || {full_name: 'Anonymous User', id: 0.13, email: "NA", role: "NA", password: "NA"};
       });
+      
       next();
       // console.timeLog()
     } else {

@@ -12,6 +12,7 @@ const BeerController = {
     });
   }),
 
+
   // Controller for ordered beers
   getOrderedBeerById: asyncHandler(async (req, res) => {
     const beerId = req.params.id;
@@ -20,6 +21,7 @@ const BeerController = {
       return res.json(data);
     });
   }),
+
 
   createBeer: asyncHandler(async (req, res) => {
     const {orderedItems} = req.body;
@@ -73,6 +75,7 @@ const BeerController = {
       return res.status(200).json(data);
     });
   }),
+
 
   updateBeerStatus: asyncHandler(async (req, res) => {
     const beerId = req.params.id;
