@@ -50,7 +50,7 @@ const BeerController = {
       }
       
       // send Email to staff
-      let user = "Anonymous User";
+      let user = req.user || "Someone";
       if (req.user && req.user !== undefined){
         user = req.user.full_name;
       }
