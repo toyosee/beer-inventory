@@ -365,11 +365,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `email`, `role`, `created_at`, `updated_at`) VALUES
-(2, 'admin1 Updated', '$2b$12$mg8OAb.yNCLo74mJSwNLpup8k4r01Y04eFq2FDpKF3G3QZ4dVMSjO', 'Admin User Again', 'admin1@example.com', 'Admin', '2023-09-22 18:21:41', '2023-10-14 21:22:15'),
-(3, 'user1', '$2b$12$cfXuAfok7hh27m2fLVDO4u7jXWkjd.yug477ijhgOehrBt.A5aN5.', 'Mostaph Jackq', 'user1@example.com', 'Basic User', '2023-09-22 18:21:41', '2023-10-12 18:56:21'),
-(6, 'toyosee', '$2b$12$W.CFMNugAgKLF1UGgmp/DerSBqTVyGQyeEK50XXHeK9eBgLjC/.qe', 'Elijah Bloomsy', 'antt@test.com', 'Basic User', '2023-09-24 19:58:32', '2023-10-12 18:59:54'),
-(8, 'toyo', '$2b$12$dAiFMNHoq4LpdjW/KwTNiu713Mlc7nIXDLcwVJChra3p3V.5xr9SC', 'Elijah Abolaji', 'tyabolaji@gmail.com', 'Super Admin', '2023-09-24 22:10:07', '2023-10-12 21:38:25');
+INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `email`, `token`, `role`, `created_at`, `updated_at`) VALUES
+(2, 'admin1 Updated', '$2b$12$mg8OAb.yNCLo74mJSwNLpup8k4r01Y04eFq2FDpKF3G3QZ4dVMSjO', '', 'Admin User Again', 'admin1@example.com', 'Admin', '2023-09-22 18:21:41', '2023-10-14 21:22:15'),
+(3, 'user1', '$2b$12$cfXuAfok7hh27m2fLVDO4u7jXWkjd.yug477ijhgOehrBt.A5aN5.', 'Mostaph Jackq', 'user1@example.com', '', 'Basic User', '2023-09-22 18:21:41', '2023-10-12 18:56:21'),
+(6, 'toyosee', '$2b$12$W.CFMNugAgKLF1UGgmp/DerSBqTVyGQyeEK50XXHeK9eBgLjC/.qe', 'Elijah Bloomsy', 'antt@test.com', '', 'Basic User', '2023-09-24 19:58:32', '2023-10-12 18:59:54'),
+(8, 'toyo', '$2b$12$dAiFMNHoq4LpdjW/KwTNiu713Mlc7nIXDLcwVJChra3p3V.5xr9SC', 'Elijah Abolaji', 'tyabolaji@gmail.com', '', 'Super Admin', '2023-09-24 22:10:07', '2023-10-12 21:38:25');
 
 --
 -- Indexes for dumped tables

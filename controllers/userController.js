@@ -49,17 +49,15 @@ const UserController = {
 
   updateUser: asyncHandler(async (req, res) => {
     const userId = req.params.id;
-    const { username, password, full_name, email, role } = req.body;
+    const { username, password, full_name, email, role, token } = req.body;
     
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = {
-      username,
-      password: hashedPassword,
       full_name,
-      email,
       role,
+      token
     };
     
     UserModel.updateUser(userId, user, (err, data) => {
@@ -112,13 +110,13 @@ const UserController = {
         const token = jwt.sign(data, secretKey, { expiresIn: '1h' });
 
         UserModel.updateUser(user.id, { ...user, token }, (err, person) => {
-            if (err) {
-                throw err
-                // return res.status(500).json({ error: 'Unable to Update User' })
-            }
+          if (err) {
+              throw err
+              // return res.status(500).json({ error: 'Unable to Update User' })
+          }
 
-            // Only send the response after updating the user
-            res.status(200).json({ token, ...data });
+          // Only send the response after updating the user
+          res.status(200).json({ token, ...data });
         });
       });
     } catch (error) {

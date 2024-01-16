@@ -1,12 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const BeerModel = require('../models/beerModel');
-const BreweryModel = require('../models/breweryModel');
-const SupplierModel = require('../models/supplierModel');
-const KegSizeModel = require('../models/kegsizeModel');
-const {sendMail, makePDF, htmlToText} = require('../utils');
+const {sendMail, makePDF, htmlToText, orderPlacedSignal} = require('../utils');
 const UserModel = require('../models/userModel');
-const fs =require('fs');
-
 
 
 const BeerController = {
@@ -17,6 +12,7 @@ const BeerController = {
     });
   }),
 
+
   // Controller for ordered beers
   getOrderedBeerById: asyncHandler(async (req, res) => {
     const beerId = req.params.id;
@@ -25,6 +21,7 @@ const BeerController = {
       return res.json(data);
     });
   }),
+
 
   createBeer: asyncHandler(async (req, res) => {
     const {orderedItems} = req.body;
@@ -52,96 +49,21 @@ const BeerController = {
         });
       }
       
-    // send Email to staff
-    let user = "Anonymous User";
-    if (req.user && req.user !== undefined){
+      // send Email to staff
+      let user = req.user || "Someone";
+      if (req.user && req.user !== undefined){
         user = req.user.full_name;
-    }
-
-      const breweries = []
-      const suppliers = []
-      const kegsizes = []
-
-      function mapBreweries(err, data){
-        if(err){
-        }else{
-          data.forEach(val => {
-            breweries.push({
-              id: val.brewery_id,
-              name: val.name
-            })
-          })
-        }
       }
 
-      function mapSuppliers(err, data){
-        if(err){
-        }else{
-          data.forEach(val => {
-            suppliers.push({
-              id: val.supplier_id,
-              name: val.name
-            })
-          })
-        }
-      }
-
-      function mapKegSizes(err, data){
-        if(err){
-        }else{
-          data.forEach(val => {
-            kegsizes.push({
-              id: val.keg_size_id,
-              name: val.name
-            })
-          })
-        }
-      }
-
-      BreweryModel.getAllBreweries(mapBreweries)
-      SupplierModel.getAllSuppliers(mapSuppliers)
-      KegSizeModel.getAllSizes(mapKegSizes)
-      
-      const pdf = makePDF({
-        user,
-        breweries,
-        suppliers,
-        orderedItems,
-        kegsizes,
-      })
-
-      let pdfFile;
-      fs.readFile(pdf, {encoding: 'utf-8'}, (err, data) => {
-        if(err){ console.log(err) };
-        pdfFile = data
-      })
-
-      sendMail({
-        user,
-        attachments: [
-          {
-            filename: 'ordered-items.pdf',
-            content: pdfFile
-          },
-        ]
-      })
-
+      // Emit an event when the order is placed
+      orderPlacedSignal.emit('orderPlaced', {orderedItems, user});
 
       return res.json({
         message: 'Record created successfully',
-        // 'fileUrl': pdfFile,
-        kegsizes,
-        suppliers,
-        breweries,
       });
 
     }catch(err){      
-    //   return res.json({
-    //     error: 'Server Error',
-    //     stack: JSON.stringify(err)
-    //   })
-    
-    throw err
+      throw err
     }
   }),
 
@@ -153,6 +75,7 @@ const BeerController = {
       return res.status(200).json(data);
     });
   }),
+
 
   updateBeerStatus: asyncHandler(async (req, res) => {
     const beerId = req.params.id;

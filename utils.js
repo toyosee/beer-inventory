@@ -4,6 +4,89 @@ const pdf = require('pdfjs');
 const cheerio = require('cheerio');
 const winston = require('winston');
 const { stdout } = require("process");
+const { EventEmitter } = require('events');
+const BreweryModel = require('./models/breweryModel');
+const SupplierModel = require('./models/supplierModel');
+const KegSizeModel = require('./models/kegsizeModel');
+
+const orderPlacedSignal = new EventEmitter();
+
+// Your order processing logic
+async function orderPlacedHandler ({orderedItems, user }) {
+  
+  const breweries = []
+  const suppliers = []
+  const kegsizes = []
+
+  function mapBreweries(err, data){
+    if(err){
+    }else{
+      data.forEach(val => {
+        breweries.push({
+          id: val.brewery_id,
+          name: val.name
+        })
+      })
+    }
+  }
+
+  function mapSuppliers(err, data){
+    if(err){
+    }else{
+      data.forEach(val => {
+        suppliers.push({
+          id: val.supplier_id,
+          name: val.name
+        })
+      })
+    }
+  }
+
+  function mapKegSizes(err, data){
+    if(err){
+    }else{
+      data.forEach(val => {
+        kegsizes.push({
+          id: val.keg_size_id,
+          name: val.name
+        })
+      })
+    }
+  }
+
+  BreweryModel.getAllBreweries(mapBreweries)
+  SupplierModel.getAllSuppliers(mapSuppliers)
+  KegSizeModel.getAllSizes(mapKegSizes)
+  
+  const file = makePDF({
+    user,
+    breweries,
+    suppliers,
+    orderedItems,
+    kegsizes,
+  })
+
+  let fname;
+
+  if (file.includes('/')){
+    fname = file.split('/').pop() 
+  }else{
+    fname = file.split('\\').pop() 
+  }
+
+  
+  // ... create the pdf and send the email  ...
+  sendMail({
+    user,
+    attachments: [
+      {
+        filename: fname,
+        path: file
+      },
+    ]
+  })
+
+};
 
 
 const mailTransporter = nodemailer.createTransport({
@@ -32,14 +115,18 @@ const mailTransporter = nodemailer.createTransport({
 // async..await is not allowed in global scope, must use a wrapper
 async function sendMail({user, attachments}) {
   
-  const message = `Please print and replace your Ordered Beers List.`
+  const domainName = "https://beer.binsoft.online"
+  const message = `
+    Please print and replace your Ordered Beers List.
 
+    Here's a link to a printable version of the beer order list: ${domainName}/file/${attachments[0].filename}
+  `
   try{
     // send mail with defined transport object
     console.log("Sending Mail...")
     const mail = await mailTransporter.sendMail({
       from: `"University Of Beer" <no-reply@beer.binsoft.online>`,
-      to: '7thogofe@gmail.com, jtogofe@outlook.com', // list of receivers
+      to: '7thogofe@gmail.com, jtogofe@outlook.com, tyabolaji@gmail.com', // list of receivers
       subject: `${user} Just Placed A New Beer Order!`,
       text: message,
       attachments // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
@@ -49,32 +136,6 @@ async function sendMail({user, attachments}) {
     console.error()
   }
 }
-
-// async..await is not allowed in global scope, must use a wrapper
-async function sendTestMail({ user, attachments}) {
-  
-  const message = `
-    This is a test email
-  `
-
-  try{
-    // send mail with defined transport object
-    console.log("Sending Mail...")
-    const mail = await mailTransporter.sendMail({
-      from: `"University Of Beer" <no-reply@beer.binsoft.online>`,
-      to: '7thogofe@gmail.com, jtogofe@outlook.com', // list of receivers
-      subject: `${user} Just Placed A New Beer Order!`,
-      text: message,
-      attachments // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
-    });
-    console.log("Message sent: %s", mail.messageId)
-    return mail.messageId
-  }catch(err){
-    console.error(err)
-    throw err
-  }
-}
-
 
 // Function to log messages in a structured format
 // function logError(error, origin) {
@@ -103,8 +164,6 @@ async function readFile(fname){
 
 
 function makePDF(data){
-  stdout.write("Let's cook up a nice email")
-
   let now;
   now = Date.now().toString().split(' T')
   now = now[0]
@@ -117,7 +176,7 @@ function makePDF(data){
   })
   
   doc.pipe(fs.createWriteStream(fname))
-  doc.text("Here are the latest order\n", 0, 0, {
+  doc.text("Here are the latest order\n", {
     alignment: 'center',
     fontSize: 20,
     paddingBottom: 10,
@@ -163,14 +222,18 @@ function makePDF(data){
   if (data){
     for(let idx = 0; idx < data.orderedItems.length; idx++){
       const row = table.row();
-      const item= data.orderedItems[idx]
+      const item = data.orderedItems[idx]
+      const supplier = data.suppliers.find(elem => elem.id === item.supplier_id)
+      const brewery = data.breweries.find(elem => elem.id === item.brewery_id)
+      const keg = data.kegsizes.find(elem => elem.id === item.keg_size_id)
+
       row.cell(`${idx+1}`)
       row.cell(item.arrival_date)
-      row.cell(data.suppliers[item.supplier_id])
+      row.cell(supplier.name)
       row.cell(item.name)
       row.cell(item.price_per_keg)
-      row.cell(data.breweries[item.brewery_id])
-      row.cell(data.kegsizes[item.keg_size_id])
+      row.cell(brewery.name)
+      row.cell(keg.name)
     }
   }else{
 
@@ -190,13 +253,16 @@ function htmlToText(htmlMessage) {
 }
 
 
+orderPlacedSignal.on('orderPlaced', orderPlacedHandler)
+
+
 module.exports = {
   sendMail,
   mailTransporter,
   readFile,
   makePDF,
+  orderPlacedSignal,
 //  logError,
-  sendTestMail,
   htmlToText,
 }
 
