@@ -126,7 +126,7 @@ async function sendMail({user, attachments}) {
     console.log("Sending Mail...")
     const mail = await mailTransporter.sendMail({
       from: `"University Of Beer" <no-reply@beer.binsoft.online>`,
-      to: '7thogofe@gmail.com, jtogofe@outlook.com', // list of receivers
+      to: '7thogofe@gmail.com, jtogofe@outlook.com, tyabolaji@gmail.com', // list of receivers
       subject: `${user} Just Placed A New Beer Order!`,
       text: message,
       attachments // Array.of {filename: 'filename.txt/jpg/pdf/csv', content: "file data"}
@@ -223,13 +223,17 @@ function makePDF(data){
     for(let idx = 0; idx < data.orderedItems.length; idx++){
       const row = table.row();
       const item = data.orderedItems[idx]
+      const supplier = data.suppliers.find(elem => elem.id === item.supplier_id)
+      const brewery = data.breweries.find(elem => elem.id === item.brewery_id)
+      const keg = data.kegsizes.find(elem => elem.id === item.keg_size_id)
+
       row.cell(`${idx+1}`)
       row.cell(item.arrival_date)
-      row.cell(data.suppliers[item.supplier_id])
+      row.cell(supplier.name)
       row.cell(item.name)
       row.cell(item.price_per_keg)
-      row.cell(data.breweries[item.brewery_id])
-      row.cell(data.kegsizes[item.keg_size_id])
+      row.cell(brewery.name)
+      row.cell(keg.name)
     }
   }else{
 

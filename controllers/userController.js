@@ -55,10 +55,7 @@ const UserController = {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = {
-      username,
-      password: hashedPassword,
       full_name,
-      email,
       role,
       token
     };
